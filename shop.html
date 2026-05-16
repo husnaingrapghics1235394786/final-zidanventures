@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop — ZidanVentures®</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <link rel="stylesheet" href="shared.css"/>
+  <style>
+    /* ── SHOP SPECIFIC ── */
+    .shop-controls { background: var(--off-white); padding: 3rem 0 2rem; }
+    .controls-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap;
+    }
+    .search-wrap {
+      position: relative; flex: 1; max-width: 460px;
+    }
+    .search-wrap svg {
+      position: absolute; left: 1.1rem; top: 50%;
+      transform: translateY(-50%);
+      width: 18px; height: 18px; stroke: var(--text-light); pointer-events: none;
+    }
+    #searchInput {
+      width: 100%;
+      background: var(--cream);
+      border: 1.5px solid rgba(25,74,98,0.15);
+      border-radius: 8px;
+      padding: 0.9rem 1rem 0.9rem 3rem;
+      font-family: var(--font-body); font-size: 0.95rem;
+      color: var(--text-dark); outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    #searchInput:focus { border-color: var(--deep); box-shadow: 0 0 0 4px rgba(25,74,98,0.08); }
+    #searchInput::placeholder { color: var(--text-light); }
+    .filter-tabs { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .filter-tab {
+      font-family: var(--font-ui); font-size: 0.68rem; letter-spacing: 0.15em;
+      text-transform: uppercase; font-weight: 600;
+      padding: 0.55rem 1.1rem; border-radius: 20px;
+      border: 1.5px solid rgba(25,74,98,0.15);
+      color: var(--text-mid); background: transparent;
+      cursor: pointer; transition: all 0.25s;
+    }
+    .filter-tab:hover, .filter-tab.active {
+      background: var(--deep); color: var(--off-white); border-color: var(--deep);
+    }
+    .results-count {
+      font-family: var(--font-ui); font-size: 0.72rem;
+      letter-spacing: 0.12em; color: var(--text-light);
+    }
+    .results-count span { color: var(--deep); font-weight: 600; }
+
+    /* ── SHOP GRID ── */
+    .shop-section { background: var(--off-white); padding: 3rem 0 8rem; }
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .shop-card {
+      background: var(--cream); border: 1px solid rgba(25,74,98,0.1);
+      border-radius: 16px; overflow: hidden;
+      transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s;
+      cursor: pointer; position: relative;
+    }
+    .shop-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 28px 56px rgba(25,74,98,0.14);
+    }
+    .shop-card-img {
+      
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      font-size: 4rem;
+    }
+    .shop-card-img img{
+      width: 100%;
+      height: 100%;
+    }
+    .shop-card-overlay {
+      position: absolute; inset: 0;
+      background: rgba(25,74,98,0.6);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .shop-card:hover .shop-card-overlay { opacity: 1; }
+    .overlay-btn {
+      font-family: var(--font-ui); font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--deep-dark); background: var(--gold);
+      padding: 0.7rem 1.5rem; border-radius: 4px;
+      transform: translateY(10px); transition: transform 0.3s;
+    }
+    .shop-card:hover .overlay-btn { transform: translateY(0); }
+    .shop-card-badge {
+      position: absolute; top: 1rem; left: 1rem; z-index: 2;
+      background: var(--gold); color: var(--deep-dark);
+      font-family: var(--font-ui); font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.28rem 0.7rem; border-radius: 20px;
+    }
+    .shop-card-rating {
+      position: absolute; top: 1rem; right: 1rem; z-index: 2;
+      background: rgba(0,0,0,0.4); backdrop-filter: blur(8px);
+      color: var(--gold-light); font-family: var(--font-ui); font-size: 0.62rem;
+      padding: 0.28rem 0.6rem; border-radius: 20px;
+      display: flex; align-items: center; gap: 0.28rem;
+    }
+    .shop-card-body { padding: 1.5rem; }
+    .shop-card-cat {
+      font-family: var(--font-ui); font-size: 0.6rem;
+      letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-light);
+      margin-bottom: 0.4rem;
+    }
+    .shop-card-name {
+      font-family: var(--font-display); font-size: 1.35rem; font-weight: 400;
+      color: var(--text-dark); margin-bottom: 0.5rem;
+    }
+    .shop-card-desc {
+      font-size: 0.85rem; line-height: 1.65; color: var(--text-mid); margin-bottom: 1.25rem;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .shop-card-footer { display: flex; align-items: center; justify-content: space-between; }
+    .shop-price {
+      font-family: var(--font-display); font-size: 1.5rem; font-weight: 300; color: var(--deep);
+    }
+    .shop-price small { font-size: 0.85rem; color: var(--text-light); text-decoration: line-through; margin-left: 0.4rem; }
+    .shop-buy-btn {
+      background: var(--deep); color: var(--off-white);
+      font-family: var(--font-ui); font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.65rem 1.1rem; border-radius: 6px; border: none; cursor: pointer;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .shop-buy-btn:hover { background: var(--deep-light); transform: translateY(-1px); }
+
+    /* ── NO RESULTS ── */
+    .no-results {
+      grid-column: 1/-1; text-align: center; padding: 5rem 2rem;
+      display: none;
+    }
+    .no-results.show { display: block; }
+    .no-results-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .no-results h3 { font-family: var(--font-display); font-size: 1.8rem; color: var(--text-dark); margin-bottom: 0.5rem; }
+    .no-results p { color: var(--text-mid); font-size: 0.95rem; }
+
+   
+    /* ── PRODUCT POPUP (SPA) ── */
+    .popup-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(10,25,35,0.75);
+      backdrop-filter: blur(6px);
+      z-index: 5000;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s;
+    }
+    .popup-backdrop.open { opacity: 1; pointer-events: all; }
+    .popup-panel {
+      position: fixed; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0.94);
+      width: min(900px, 94vw);
+      max-height: 90vh; overflow-y: auto;
+      background: var(--cream);
+      border-radius: 20px;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+      z-index: 5001;
+      opacity: 0; pointer-events: none;
+      transition: transform 0.4s var(--ease-bounce), opacity 0.35s;
+    }
+    .popup-panel.open { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: all; }
+    .popup-panel::-webkit-scrollbar { width: 5px; }
+    .popup-panel::-webkit-scrollbar-thumb { background: rgba(25,74,98,0.2); border-radius: 3px; }
+    .popup-inner { display: grid; grid-template-columns: 1fr 1fr; }
+    .popup-visual {
+      min-height: 400px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 6rem; position: relative;
+      border-radius: 20px 0 0 20px; overflow: hidden;
+    }
+    .popup-body { padding: 3rem; }
+    .popup-close {
+      position: absolute; top: 1.25rem; right: 1.25rem;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(245,240,232,0.9); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: var(--text-dark);
+      transition: background 0.2s, transform 0.2s; z-index: 10;
+    }
+    .popup-close:hover { background: var(--off-white2); transform: rotate(90deg); }
+    .popup-cat {
+      font-family: var(--font-ui); font-size: 0.62rem; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem;
+    }
+    .popup-name {
+      font-family: var(--font-display); font-size: 2.2rem; font-weight: 300;
+      color: var(--text-dark); margin-bottom: 0.5rem; line-height: 1.15;
+    }
+    .popup-rating {
+      display: flex; align-items: center; gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .popup-stars { color: var(--gold); font-size: 0.9rem; }
+    .popup-rating-count { font-size: 0.82rem; color: var(--text-light); }
+    .popup-desc {
+      font-size: 0.95rem; line-height: 1.85; color: var(--text-mid);
+      margin-bottom: 2rem;
+    }
+    .popup-features { margin-bottom: 2rem; }
+    .popup-feat-title {
+      font-family: var(--font-ui); font-size: 0.65rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--text-dark); font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .popup-feat-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .popup-feat-list li {
+      font-size: 0.88rem; color: var(--text-mid); display: flex; align-items: flex-start; gap: 0.6rem;
+    }
+    .popup-feat-list li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .popup-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 1.75rem; border-top: 1px solid rgba(25,74,98,0.08);
+    }
+    .popup-price {
+      font-family: var(--font-display); font-size: 2rem; font-weight: 300; color: var(--deep);
+    }
+    .popup-price small { font-size: 1rem; color: var(--text-light); text-decoration: line-through; margin-left: 0.4rem; }
+    .popup-actions { display: flex; gap: 0.75rem; }
+
+    @media (max-width: 768px) {
+      .shop-grid { grid-template-columns: 1fr 1fr; }
+      .ebay-features { grid-template-columns: 1fr; }
+      .popup-inner { grid-template-columns: 1fr; }
+      .popup-visual { min-height: 220px; border-radius: 20px 20px 0 0; font-size: 4rem; justify-content: flex-start; align-items: flex-start; }
+      .popup-image{ height: 100%;}
+    }
+    @media (max-width: 480px) {
+      .shop-grid { grid-template-columns: 1fr; }
+      .popup-image{ height: 100%;}
+    }
+    .popup-image{
+      width: 95%;
+      margin-top: 0;
+      border-radius: 30px;
+      position: absolute; top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="page-transition-overlay"></div>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="preloader-logo" id="plLogo">Zidan<span>Ventures®</span></div>
+    <div class="preloader-tagline" id="plTag">Shop</div>
+    <div class="preloader-bar-wrap"><div class="preloader-bar" id="plBar"></div></div>
+    <div class="preloader-count" id="plCount">0%</div>
+    <div class="preloader-sweep" id="plSweep"></div>
+  </div>
+
+  <!-- PRODUCT POPUP -->
+  <div class="popup-backdrop" id="popupBackdrop"></div>
+  <div class="popup-panel" id="popupPanel">
+    <button class="popup-close" id="popupClose">✕</button>
+    <div class="popup-inner">
+      <div class="popup-visual" id="popupVisual"></div>
+      <div class="popup-body">
+        <div class="popup-cat" id="popupCat"></div>
+        <div class="popup-name" id="popupName"></div>
+        <div class="popup-rating">
+          <div class="popup-stars" id="popupStars"></div>
+          <div class="popup-rating-count" id="popupRatingCount"></div>
+        </div>
+        <p class="popup-desc" id="popupDesc"></p>
+        <div class="popup-features">
+          <div class="popup-feat-title">Key Features</div>
+          <ul class="popup-feat-list" id="popupFeatures"></ul>
+        </div>
+        <div class="popup-footer">
+          <div class="popup-price" id="popupPrice"></div>
+          <div class="popup-actions">
+            <a href="#" class="btn-primary" id="popupBuyBtn" target="_blank">Buy on Amazon ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- HEADER -->
+  <header id="site-header">
+    <div style="display: flex; justify-content: center; align-items: center;">
+    <img style="width: 50px; margin-right: 10px; "src="Untitled_design-removebg-preview.png" alt="logo">
+    <a href="index.html" class="logo">Zidan<em>Ventures®</em></a>
+    </div>
+    <nav>
+      <a href="index.html"   data-page="index.html" class="nav-list">Home</a>
+      <a href="about.html"   data-page="about.html" class="nav-list">About</a>
+      <a href="shop.html"    data-page="shop.html" class="nav-list" >Shop</a>
+      <a href="whyus.html"   data-page="whyus.html" class="nav-list">Why Us</a>
+      <a href="contact.html" data-page="contact.html" class="nav-list">Contact</a>
+      <a href="https://www.amazon.co.uk/dp/B0G3HCSNRZ" class="nav-cta nav-list">Shop Amazon ↗</a>
+    </nav>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+      <div class="page-hero-grid"></div>
+      <div class="page-hero-orb page-hero-orb-1"></div>
+      <div class="page-hero-orb page-hero-orb-2"></div>
+      <div class="page-hero-inner container">
+        <div class="page-hero-breadcrumb"><a href="index.html">Home</a> / Shop</div>
+        <h1 class="page-hero-title" id="heroTitle">Our <em>Products</em></h1>
+        <p class="page-hero-sub">Browse our full collection of life-simplifying products, handpicked for quality and real-world value.</p>
+      </div>
+    </section>
+
+   
+
+    <!-- CONTROLS -->
+    <div class="shop-controls">
+      <div class="container">
+        <div class="controls-inner">
+          <div class="search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="searchInput" placeholder="Search products..." autocomplete="off"/>
+          </div>
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-cat="all">All</button>
+            <button class="filter-tab" data-cat="Work">Work</button>
+            <button class="filter-tab" data-cat="home">Home</button>
+            <button class="filter-tab" data-cat="Kitchen">Kitchen</button>
+            <button class="filter-tab" data-cat="Sports">Sports</button>
+          </div>
+          <div class="results-count"><span id="resultCount">6</span> products</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT GRID -->
+    <section class="shop-section">
+      <div class="container">
+        <div class="shop-grid" id="shopGrid">
+          <!-- Cards injected by JS -->
+          <div class="no-results" id="noResults">
+            <div class="no-results-icon">🔍</div>
+            <h3>No products found</h3>
+            <p>Try a different search term or category.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+
+<!-- EBAY SECTION -->
+    <section class="ebay-section" style="--s: 80px; /* control the size */
+
+--deep:       ;
+--deep-mid:   #153747;
+--deep-light: ;
+
+ --s: 80px; /* control the size */
+  --c:  #113240;
+  
+  --_g: 
+    #0000 calc(-650%/13) calc(50%/13),var(--c) 0 calc(100%/13),
+    #0000 0 calc(150%/13),var(--c) 0 calc(200%/13),
+    #0000 0 calc(250%/13),var(--c) 0 calc(300%/13);
+  --_g0: repeating-linear-gradient( 45deg,var(--_g));
+  --_g1: repeating-linear-gradient(-45deg,var(--_g));
+  background:
+    var(--_g0),var(--_g0) var(--s) var(--s),
+    var(--_g1),var(--_g1) var(--s) var(--s) #0e2734;
+  background-size: calc(2*var(--s)) calc(2*var(--s));
+
+
+
+;"> 
+     <div class="container" >
+        <div class="ebay-inner">
+          <div class="ebay-badge reveal">🛍️ Also Available On</div>
+          <div class="ebay-logo-text reveal">View on <em>eBay</em></div>
+          <p class="ebay-tagline reveal">
+            Can't find what you're looking for on Amazon? Our full collection is also available on eBay — same trusted quality, same great prices, with eBay's world-class buyer protection.
+          </p>
+          <div class="ebay-stats reveal">
+            <div>
+              <div class="ebay-stat-num">500+</div>
+              <div class="ebay-stat-label">Sales</div>
+            </div>
+            <div>
+              <div class="ebay-stat-num">100%</div>
+              <div class="ebay-stat-label">Positive Feedback</div>
+            </div>
+            <div>
+              <div class="ebay-stat-num">4.9★</div>
+              <div class="ebay-stat-label">Seller Rating</div>
+            </div>
+            <div>
+              <div class="ebay-stat-num">24h</div>
+              <div class="ebay-stat-label">Fast Dispatch</div>
+            </div>
+          </div>
+          <div class="ebay-features reveal">
+            <div class="ebay-feat">
+              <div class="ebay-feat-icon">🛡️</div>
+              <div class="ebay-feat-title">eBay Buyer Protection</div>
+              <div class="ebay-feat-desc">Every purchase backed by eBay's money-back guarantee. Shop with complete confidence.</div>
+            </div>
+            <div class="ebay-feat">
+              <div class="ebay-feat-icon">⚡</div>
+              <div class="ebay-feat-title">Fast Shipping</div>
+              <div class="ebay-feat-desc">Orders dispatched within 24 hours. Fast shipping on orders on every order</div>
+            </div>
+            <div class="ebay-feat">
+              <div class="ebay-feat-icon">💬</div>
+              <div class="ebay-feat-title">100% Positive Feedback</div>
+              <div class="ebay-feat-desc">We've maintained a perfect seller rating since day one. Your satisfaction is our standard.</div>
+            </div>
+          </div>
+          <a href="https://www.ebay.co.uk/str/zidanVentures®?mkcid=16&mkevt=1&mkrid=711-127632-2357-0&ssspo=a-yigfpqsl-&sssrc=3418065&ssuid=a-yigfpqsl-&stype=1&widget_ver=artemis&media=MORE" class="ebay-cta reveal" target="_blank">
+            View Our eBay Store
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="9,3 14,8 9,13"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+
+    <div id="footer-mount"></div>
+  </main>
+  </div>
+
+  <script src="shared.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ── PRODUCT DATA ── */
+    const products = [
+      {
+        id: 1, cat: 'Food', catLabel: 'Everyday Essential · Food',
+        img:'/719t1niz0ZL._AC_SX679_22222.jpg',
+        gradient: '#ede8de',
+        badge: '#1 Best Seller', rating: 4.9, reviews: '13',
+        name: 'Wine Bottle Vacuum Pump Set with 6 Reusable Stoppers',
+        shortDesc: 'Keep your opened bottles fresh for up to 14 days with our upgraded silicone red wine air tight stopper. ',
+        desc: '100% LEAK-PROOF WINE BOTTLE VACUUM SEALER: Keep your opened bottles fresh for up to 14 days with our upgraded silicone red wine air tight stopper. This complete wine bottle sealer vacuum stoppers pump creates a strong airtight barrier, preventing oxidation to perfectly preserve the original flavour and aroma of your favourite red, white, or rosé.',
+        features: ['FITS ALL STANDARD BOTTLES', 'EASY ONE-HAND WINE AIR REMOVER PUMP', 'DURABLE, FOOD-SAFE MATERIALS', 'THE PERFECT WINE GIFT & RELIABLE SUPPORT'],
+        buyLink: 'https://www.amazon.co.uk/dp/B0FXSKJ6T6',
+      },
+      {
+        id: 2, cat: 'Work', catLabel: ' Work · Safety',
+        img:' /51fvF2DpwmL._SX342_SY445_QL70_ML2_.jpg',
+        gradient: '#f5f0e8',
+        badge: "Amazon's Choice", rating: 4.2, reviews: '13',
+        name: 'Professional Gel Knee Pads for Work',
+        shortDesc: 'Heavy Duty Cushion & EVA Foam Padding with Anti-Slip Straps and Easy-Fix Clips for Construction, Flooring, Gardening, and DIY – Fits Men & Women',
+        desc: 'ZidanVentures® Professional Knee Protection – Built for All Flooring & Construction Tasks Shield your knees during tiling, concrete work, flooring installations, roofing, welding, plumbing, gardening, and more. Designed for tradesmen, DIY home improvement, and outdoor use.',
+        features: ['Heavy-Duty Non-Slip Safety Shield ', 'Premium Comfort Gel & EVA Padding', 'Hinged Ergonomic Design + Adjustable Straps', 'Pack of 2 Knee Pads'],
+        buyLink: 'https://www.amazon.co.uk/dp/B0G3HCSNRZ',
+      },
+      {
+        id: 3, cat: 'Sports', catLabel: 'Sports',
+        img:'/71A4Nden9mL._AC_SX679_.jpg ',
+        gradient: '#f5f0e8',
+        badge: "Sports", rating: 0, reviews: '',
+        name: 'Football Shin Pads with Sleeves',
+        shortDesc: 'Large Soccer Shin Guards for Men, Women & Youth – Lightweight, Flexible Protection with Breathable Compression Calf Sleeve – Secure Non-Slip Fit',
+        desc: "Heavy-Duty Shin Protection for Intense Football & Contact Sports Designed for larger-built adults and players seeking maximum coverage and stability in football, soccer, rugby, hockey & training drills.",
+        features: ['Anti-Slip Sleeve', 'Large Fit for Bigger Athletes', 'Waterproof & Breathable', 'High-Impact Resistant Padding'],
+        buyLink: 'https://www.amazon.co.uk/dp/B0G4ZM6G6W?th=1&psc=1',
+      },
+      {
+        id: 4, cat: 'Kitchen', catLabel: 'Kitchen',
+        img:'/61fbKoSZedL._AC_SY300_SX300_QL70_ML2_.jpg',
+        gradient: '#f5f0e8',
+        badge: 'New Arrival', rating: 5, reviews: '1',
+        name: '2pcs Corn Peeler & Holder Set',
+        shortDesc: 'Extra Sharp Stainless Steel Kernel Cutter with Non-Slip Handle, Safety Cover, Fast Sweetcorn Prep Tool, Easy & Mess-Free, Dishwasher Safe',
+        desc: "Fast & Safe Corn Kernel Remover: Easily strip corn kernels off the cob in seconds with the sharp stainless steel blade—perfect for fresh, cooked, or frozen corn. Say goodbye to messy cutting and wasted kernels!",
+        features: ['Premium Quality Build', 'Heat-Resistant Corn Holders', 'Easy to Clean & Store', 'Versatile Kitchen Gadget:'],
+        buyLink: 'https://www.amazon.co.uk/dp/B0FXSM2W8Y',
+      },
+      {
+        id: 5, cat: 'home' , cat:'kitchen', catLabel: 'Home · Kitchen',
+        img:'/61mUp6A0jOL._AC_SX679_.jpg',
+        gradient: '#f5f0e8',
+        badge: 'Fan Favourite', rating: 4.1, reviews: '5',
+        name: '3 Pack Tempered Glass Cutting Board',
+        shortDesc: 'Tempered Glass Cutting Board for Kitchen Counter, Clear Glass Cutting Board with Non-Slip Feet, Heat Resistant, Scratch Resistant, Easy to Clean.',
+        desc: "[COMPLETE 3-PIECE VALUE SET]: Includes three versatile sizes for every kitchen task: Large (30x40cm / 12x16inches), Medium (25x35cm / 10x14inches), and Small (20x30cm / 8x12inches). From heavy meal prep to quick fruit slicing, you’ll always have the right board.",
+        features: ['HYGIENIC & ODOR-FREE', 'HEAT RESISTANT WORKTOP PROTECTOR', 'SCRATCH-RESISTANT SAFETY GLASS', 'SCRATCH-RESISTANT SAFETY GLASS'],
+        buyLink: 'https://www.amazon.co.uk/dp/B0G2ZTBMXP',
+      },
+      {
+        id: 6, cat: 'home', catLabel: 'Animal · cear ',
+        img:'/71K8AqJ91uL._AC_SY300_SX300_QL70_ML2_.jpg',
+        gradient: '#f5f0e8',
+        badge: 'Everday Essentials', rating: 4.2, reviews: '7',
+        name: 'Small Raised Dog Bowls - 6 Adjustable Heights',
+        shortDesc: 'Designed specifically for Small Breeds & Puppies. This stand adjusts from 5cm to 15cm. Ideal for French Bulldogs, Pugs, Corgis, Terriers, and Cats. Too small for Labradors or Golden Retrievers.',
+        desc: "[PLEASE MEASURE - MAX HEIGHT 15CM]: Designed specifically for Small Breeds & Puppies. This stand adjusts from 5cm to 15cm. Ideal for French Bulldogs, Pugs, Corgis, Terriers, and Cats. Too small for Labradors or Golden Retrievers.  ",
+        features: ['6 ADJUSTABLE HEIGHTS & 15° TILT', 'ANTI-VOMIT & DIGESTIVE HEALTH', 'PREMIUM WATER-RESISTANT BAMBOO', 'STURDY, FOLDABLE & TOOL-FREE'],
+        buyLink: 'https://www.amazon.co.uk/Zidanventures-Small-Raised-Dog-Bowls/dp/B0G162GP95',
+      }
+    ];
+
+    /* ── RENDER CARDS ── */
+    function renderCards(list) {
+      const grid = document.getElementById('shopGrid');
+      const noRes = document.getElementById('noResults');
+      const cards = grid.querySelectorAll('.shop-card');
+      cards.forEach(c => c.remove());
+      document.getElementById('resultCount').textContent = list.length;
+      if (list.length === 0) { noRes.classList.add('show'); return; }
+      noRes.classList.remove('show');
+      list.forEach((p, i) => {
+        const card = document.createElement('div');
+        card.className = 'shop-card';
+        card.dataset.id = p.id;
+        card.innerHTML = `
+          <div class="shop-card-img" style="background:${p.gradient}">
+           <img src="${p.img}" alt="${p.name}">
+            <div class="shop-card-badge">${p.badge}</div>
+            <div class="shop-card-rating">★ ${p.rating}</div>
+            <div class="shop-card-overlay"><div class="overlay-btn">View Details</div></div>
+          </div>
+          <div class="shop-card-body">
+            <div class="shop-card-cat">${p.catLabel}</div>
+            <div class="shop-card-name">${p.name}</div>
+            <div class="shop-card-desc">${p.shortDesc}</div>
+            <div class="shop-card-footer">
+             <a href="${p.buyLink}" class="shop-buy-btn" target="_blank" onclick="event.stopPropagation()">Amazon ↗</a>
+            </div>
+          </div>`;
+        card.addEventListener('click', () => openPopup(p));
+        grid.insertBefore(card, noRes);
+        gsap.fromTo(card, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, delay: i * 0.08, ease: 'power3.out' });
+      });
+    }
+
+    /* ── POPUP ── */
+    function openPopup(p) {
+      document.getElementById('popupVisual').style.cssText = `background:${p.gradient};font-size:6rem;display:flex;align-items:center;justify-content:center;`;
+     document.getElementById('popupVisual').innerHTML =
+  `<img src="${p.img}" alt="${p.name}" class="popup-image">`;
+      document.getElementById('popupCat').textContent = p.catLabel;
+      document.getElementById('popupName').textContent = p.name;
+      document.getElementById('popupStars').textContent = '★★★★★';
+      document.getElementById('popupRatingCount').textContent = `${p.rating} · ${p.reviews} reviews`;
+      document.getElementById('popupDesc').textContent = p.desc;
+      document.getElementById('popupBuyBtn').href = p.buyLink;
+      const fl = document.getElementById('popupFeatures');
+      fl.innerHTML = p.features.map(f => `<li>${f}</li>`).join('');
+      document.getElementById('popupBackdrop').classList.add('open');
+      document.getElementById('popupPanel').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closePopup() {
+      document.getElementById('popupBackdrop').classList.remove('open');
+      document.getElementById('popupPanel').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('popupClose').addEventListener('click', closePopup);
+    document.getElementById('popupBackdrop').addEventListener('click', closePopup);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
+
+    /* ── SEARCH & FILTER ── */
+    let activecat = 'all';
+    function applyFilters() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const filtered = products.filter(p => {
+        const matchCat = activecat === 'all' || p.cat === activecat;
+        const matchQ   = !q || p.name.toLowerCase().includes(q) || p.catLabel.toLowerCase().includes(q) || p.shortDesc.toLowerCase().includes(q);
+        return matchCat && matchQ;
+      });
+      renderCards(filtered);
+    }
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.querySelectorAll('.filter-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activecat = btn.dataset.cat;
+        applyFilters();
+      });
+    });
+
+    /* ── INIT ── */
+    gsap.registerPlugin(ScrollTrigger);
+    runPreloader(() => {
+      gsap.from('#heroTitle', { opacity: 0, y: 40, duration: 0.9, ease: 'power3.out' });
+      renderCards(products);
+      initHeader(); initReveal(); initCursor();
+    });
+    renderFooter(document.getElementById('footer-mount'));
+  </script>
+</body>
+</html>

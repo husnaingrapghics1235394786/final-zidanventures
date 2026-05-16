@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZidanVentures® — Life Made Effortless</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
+   <link rel="stylesheet" href="shared.css">
+  <style>
+    /* ──────────────── VARIABLES ──────────────── */
+    :root {
+      --deep:       #194a62;
+      --deep-dark:  #002a3d;
+      --deep-mid:   #1e5a76;
+      --deep-light: #2a7a9e;
+      --off-white:  #f5f0e8;
+      --off-white2: #ede8de;
+      --cream:      #faf7f2;
+      --gold:       #c9a84c;
+      --gold-light: #e2c57a;
+      --text-dark:  #0d1f2a;
+      --text-mid:   #3a5566;
+      --text-light: #7a9aac;
+
+      --font-display: 'Cormorant Garamond', serif;
+      --font-ui:      'Syne', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+
+      --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* ──────────────── RESET ──────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ──────────────── CUSTOM CURSOR ──────────────── */
+    .cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--deep);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform 0.1s, background 0.2s;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--deep);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform 0.15s var(--ease-smooth), width 0.3s, height 0.3s, opacity 0.3s;
+      opacity: 0.6;
+    }
+    .cursor-ring.expand { width: 60px; height: 60px; opacity: 0.3; }
+
+    /* ──────────────── PRELOADER ──────────────── */
+    #preloader {
+      position: fixed; inset: 0;
+      background: var(--deep-dark);
+      z-index: 10000;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .preloader-logo {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 300;
+      color: var(--off-white);
+      letter-spacing: 0.08em;
+      opacity: 0;
+    }
+    .preloader-logo span { color: var(--gold); font-style: italic; }
+    .preloader-tagline {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-top: 0.75rem;
+      opacity: 0;
+    }
+    .preloader-bar-wrap {
+      width: 260px; height: 2px;
+      background: rgba(255,255,255,0.08);
+      margin-top: 3rem; border-radius: 2px;
+      overflow: hidden;
+    }
+    .preloader-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      width: 0%;
+      border-radius: 2px;
+    }
+    .preloader-count {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--text-light);
+      margin-top: 1rem;
+    }
+    .preloader-sweep {
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--deep);
+    }
+
+    
+
+    /* ──────────────── HERO ──────────────── */
+    #hero {
+      min-height: 100vh;
+      
+      position: relative;
+      overflow: hidden;
+      display: flex; align-items: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background:  url("ChatGPT Image May 14, 2026, 03_23_19 PM.png");
+      
+
+    }
+    .hero-bg-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .hero-orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(25,74,98,0.7) 0%, transparent 70%);
+      top: -150px; right: -100px;
+    }
+    .hero-orb-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+      bottom: 50px; left: -80px;
+    }
+    .hero-inner {
+      position: relative; z-index: 2;
+      width: 100%; max-width: 1300px;
+      margin: 0 auto;
+      padding: 8rem 4vw 5rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .hero-label {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      opacity: 0;
+    }
+    .hero-label::before {
+      content: ''; width: 30px; height: 1px; background: var(--gold);
+    }
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 5.5vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--off-white);
+      margin-bottom: 2rem;
+      opacity: 0;
+      text-shadow: 20px 20px 80px var(--deep-dark);
+    }
+    .hero-headline em { font-style: italic; color: var(--gold); }
+    .hero-headline strong { font-weight: 600; }
+    .hero-sub {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: rgba(245,240,232,0.6);
+      max-width: 450px;
+      margin-bottom: 3rem;
+      opacity: 0;
+    }
+    .hero-actions { display: flex; gap: 1.25rem; align-items: center; opacity: 0; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      background: var(--gold);
+      color: var(--deep-dark);
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 2.25rem;
+      border-radius: 2px;
+      transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+      box-shadow: 0 8px 30px rgba(201,168,76,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 40px rgba(201,168,76,0.4);
+    }
+    .btn-primary svg { width: 16px; height: 16px; }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.65);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(245,240,232,0.2);
+      padding-bottom: 2px;
+      transition: color 0.25s, border-color 0.25s;
+    }
+    .btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
+    .hero-stats {
+      display: flex; gap: 3rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(245,240,232,0.08);
+      opacity: 0;
+    }
+    .stat-item {}
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: var(--off-white);
+      line-height: 1;
+    }
+    .stat-num span { color: var(--gold); font-style: italic; }
+    .stat-label {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-top: 0.4rem;
+    }
+    /* Hero right side */
+    .hero-visual {
+      position: relative;
+      opacity: 0;
+      transform: translateX(40px);
+    }
+    .hero-card-main {
+      background: linear-gradient(135deg, rgba(25,74,98,0.8), rgba(15,47,62,0.9));
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card-main::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .hero-product-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .showcase-item {
+      background: rgba(245,240,232,0.05);
+      border: 1px solid rgba(245,240,232,0.08);
+      border-radius: 10px;
+      padding: 1.25rem;
+      text-align: center;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .showcase-item:hover { background: rgba(245,240,232,0.08); transform: translateY(-3px); }
+    .showcase-item .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .showcase-item .name {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.6);
+    }
+    .showcase-item .price {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--gold);
+      margin-top: 0.25rem;
+    }
+    .hero-card-label {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .hero-card-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--off-white);
+    }
+    .hero-badge {
+      position: absolute;
+      top: -10px; right: 30px;
+      background: var(--gold);
+      color: var(--deep-dark);
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.4);
+      z-index: 1000;
+    }
+    .hero-floating-card {
+      position: absolute;
+      bottom: -20px; left: 300px;
+      background: var(--deep);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .floating-icon {
+      width: 42px; height: 42px;
+      background: rgba(201,168,76,0.15);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .floating-text {}
+    .floating-label {
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+    .floating-val {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--off-white);
+    }
+
+    /* ──────────────── SECTION SHARED ──────────────── */
+    section { position: relative; overflow: hidden; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+    }
+    .section-label::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 4vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+    }
+    .section-title em { font-style: italic; color: var(--deep); }
+    .section-title--light em { color: var(--gold); }
+    .section-title--light { color: var(--off-white); }
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 4vw;
+    }
+
+    /* ──────────────── WHY US ──────────────── */
+    #why {
+      background: var(--off-white);
+      padding: 8rem 0;
+    }
+    .why-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .why-left .section-title { color: var(--text-dark); }
+    .why-sub {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-mid);
+      margin-top: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .why-link {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--deep);
+      text-decoration: none;
+      font-weight: 600;
+      transition: gap 0.3s;
+    }
+    .why-link:hover { gap: 1rem; }
+    .why-link svg { width: 16px; height: 16px; }
+    .why-features { display: flex; flex-direction: column; gap: 2rem; }
+    .why-feat {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      padding: 1.75rem;
+      border-radius: 12px;
+      background: var(--cream);
+      border: 1px solid rgba(25,74,98,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .why-feat:hover {
+      transform: translateX(8px);
+      box-shadow: 0 10px 40px rgba(25,74,98,0.1);
+    }
+    .why-feat-icon {
+      width: 52px; height: 52px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--deep), var(--deep-mid));
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      box-shadow: 0 8px 20px rgba(25,74,98,0.25);
+    }
+    .why-feat-body {}
+    .why-feat-title {
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--text-dark);
+      margin-bottom: 0.4rem;
+    }
+    .why-feat-desc {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-mid);
+    }
+
+    /* ──────────────── BEST SELLERS ──────────────── */
+    #bestsellers {
+      background: var(--cream);
+      padding: 8rem 0;
+    }
+    .bestsellers-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+    .bestsellers-all {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--deep);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 0.5rem;
+      font-weight: 600;
+      transition: gap 0.3s;
+    }
+    .bestsellers-all:hover { gap: 0.9rem; }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .product-card {
+      background: var(--cream);
+      border: 1px solid rgba(25,74,98,0.1);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s;
+      position: relative;
+    }
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px rgba(25,74,98,0.15);
+    }
+    .product-img {
+      
+      background: linear-gradient(135deg, var(--deep), var(--deep-mid));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .product-img img{
+      width: 100%;
+      height: 100%;
+    }
+    .product-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.15));
+    }
+    .product-badge {
+      position: absolute; top: 1rem; left: 1rem;
+      background: var(--gold);
+      color: var(--deep-dark);
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      z-index: 2;
+    }
+    .product-rating {
+      position: absolute; top: 1rem; right: 1rem;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px);
+      color: var(--gold-light);
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
+      display: flex; align-items: center; gap: 0.3rem;
+      z-index: 2;
+    }
+    .product-body { padding: 1.75rem; }
+    .product-cat {
+      font-family: var(--font-ui);
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+    }
+    .product-name {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 400;
+      color: var(--text-dark);
+      line-height: 1.25;
+      margin-bottom: 0.6rem;
+    }
+    .product-desc {
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: var(--text-mid);
+      margin-bottom: 1.5rem;
+    }
+    .product-footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .product-price {
+      font-family: var(--font-body);
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--deep);
+    }
+    .product-price small {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      text-decoration: line-through;
+      margin-left: 0.4rem;
+    }
+    .product-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--deep);
+      color: var(--off-white);
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.7rem 1.25rem;
+      border-radius: 6px;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .product-btn:hover { background: var(--deep-light); transform: translateY(-1px); }
+
+    /* ──────────────── DEALS ──────────────── */
+    #deals {
+      background: var(--deep-dark);
+      padding: 8rem 0;
+      position: relative;
+    }
+    #deals::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(25,74,98,0.5) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(201,168,76,0.06) 0%, transparent 40%);
+      pointer-events: none;
+    }
+    .deals-head { margin-bottom: 4rem; text-align: center; }
+    .deals-head .section-title--light { color: var(--off-white); }
+    .deals-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .deal-card {
+      background: rgba(245,240,232,0.04);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.4s var(--ease-smooth), border-color 0.3s;
+      position: relative;
+    }
+    .deal-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(201,168,76,0.4);
+    }
+    .deal-card.featured {
+      border-color: rgba(201,168,76,0.4);
+      grid-row: span 1;
+    }
+    .deal-img {
+      height: 180px;
+      background: linear-gradient(135deg, rgba(25,74,98,0.6), rgba(42,122,158,0.4));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      position: relative;
+    }
+    .deal-countdown {
+      position: absolute; bottom: 0.75rem; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 20px;
+      padding: 0.3rem 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      color: var(--gold-light);
+      white-space: nowrap;
+    }
+    .deal-body { padding: 1.5rem; }
+    .deal-tag {
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .deal-name {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: var(--off-white);
+      margin-bottom: 0.5rem;
+    }
+    .deal-desc {
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: rgba(245,240,232,0.5);
+      margin-bottom: 1.25rem;
+    }
+    .deal-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .deal-pricing {}
+    .deal-price {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--gold);
+    }
+    .deal-original {
+      font-size: 0.8rem;
+      color: rgba(245,240,232,0.35);
+      text-decoration: line-through;
+    }
+    .deal-save {
+      background: rgba(201,168,76,0.15);
+      color: var(--gold);
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.3rem 0.75rem;
+      border-radius: 4px;
+    }
+    .deal-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--gold);
+      color: var(--deep-dark);
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 6px;
+      white-space: nowrap;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .deal-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    /* ──────────────── TESTIMONIALS ──────────────── */
+    #testimonials {
+      background: var(--off-white2);
+      padding: 8rem 0;
+    }
+    .testimonials-head { text-align: center; margin-bottom: 5rem; }
+    .testimonials-head .section-label { justify-content: center; }
+    .testimonials-head .section-label::before { display: none; }
+    .testimonials-head .section-label::after { content: ''; width: 24px; height: 1px; background: var(--gold); }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .testi-card {
+      background: var(--cream);
+      border: 1px solid rgba(1, 41, 61, 0.08);
+      border-radius: 16px;
+      padding: 2.25rem;
+      position: relative;
+      transition: transform 0.35s, box-shadow 0.35s;
+    }
+    .testi-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(25,74,98,0.1);
+    }
+    .testi-card.featured {
+      background: linear-gradient(135deg, var(--deep), var(--deep-mid));
+      border-color: transparent;
+    }
+    .testi-quote {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      line-height: 0.5;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+      font-style: italic;
+    }
+    .testi-card.featured .testi-quote { color: rgba(201,168,76,0.5); }
+    .testi-text {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-mid);
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+    .testi-card.featured .testi-text { color: rgba(245,240,232,0.75); }
+    .testi-stars { color: var(--gold); font-size: 0.85rem; letter-spacing: 0.1em; margin-bottom: 1.5rem; }
+    .testi-author { display: flex; align-items: center; gap: 1rem; }
+    .testi-avatar {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--deep-light), var(--deep));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--off-white);
+      font-weight: 400;
+    }
+    .testi-card.featured .testi-avatar { background: rgba(245,240,232,0.15); }
+    .testi-name {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    .testi-card.featured .testi-name { color: var(--off-white); }
+    .testi-loc {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-top: 0.15rem;
+    }
+    .testi-card.featured .testi-loc { color: rgba(245,240,232,0.5); }
+    .testi-verified {
+      position: absolute;
+      top: 1.5rem; right: 1.75rem;
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+
+    /* ──────────────── FOOTER ──────────────── */
+    footer {
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0, 0, 0, 0.3)),
+    url("ChatGPT Image May 14, 2026, 03_23_19 PM (1).png");;
+      padding: 6rem 0 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+    }
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+    .footer-brand {}
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--off-white);
+      margin-bottom: 1rem;
+    }
+    .footer-logo em { color: var(--gold); font-style: italic; }
+    .footer-tagline {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: rgba(245,240,232,0.45);
+      margin-bottom: 2rem;
+    }
+    .footer-social { display: flex; gap: 0.75rem; }
+    .social-btn {
+      width: 38px; height: 38px;
+      border: 1px solid rgba(245,240,232,0.12);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(245,240,232,0.5);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: border-color 0.25s, color 0.25s, background 0.25s;
+    }
+    .social-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,168,76,0.08);
+    }
+    .footer-col-title {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .footer-links a {
+      font-size: 0.9rem;
+      color: rgba(245,240,232,0.5);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    .footer-links a:hover { color: var(--off-white); }
+    .footer-newsletter p {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: rgba(245,240,232,0.45);
+      margin-bottom: 1.25rem;
+    }
+    .newsletter-form {
+      display: flex; gap: 0; flex-direction: column; gap: 0.75rem;
+    }
+    .newsletter-input {
+      background: rgba(245,240,232,0.05);
+      border: 1px solid rgba(245,240,232,0.1);
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      color: var(--off-white);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.25s;
+    }
+    .newsletter-input::placeholder { color: rgba(245,240,232,0.3); }
+    .newsletter-input:focus { border-color: rgba(201,168,76,0.4); }
+    .newsletter-btn {
+      background: var(--gold);
+      color: var(--deep-dark);
+      border: none;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.25s;
+    }
+    .newsletter-btn:hover { background: var(--gold-light); }
+    .footer-bottom {
+      border-top: 1px solid rgba(245,240,232,0.06);
+      padding-top: 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(245,240,232,0.3);
+    }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a {
+      font-size: 0.78rem;
+      color: rgba(245,240,232,0.3);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    .footer-legal a:hover { color: var(--gold); }
+
+    /* ──────────────── SCROLL REVEAL ──────────────── */
+    .reveal { opacity: 0; transform: translateY(30px); }
+
+    /* ──────────────── MARQUEE ──────────────── */
+    .marquee-strip {
+      background: var(--gold);
+      padding: 0.85rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-track {
+      display: inline-flex; gap: 3rem;
+      animation: marquee 20s linear infinite;
+    }
+    .marquee-item {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--deep-dark);
+      font-weight: 600;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .marquee-item::before { content: '✦'; font-size: 0.5rem; }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ──────────────── RESPONSIVE ──────────────── */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .why-inner { grid-template-columns: 1fr; gap: 4rem; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .deals-grid { grid-template-columns: 1fr 1fr; }
+      .testi-grid { grid-template-columns: 1fr 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 3rem; }
+    }
+    @media (max-width: 768px) {
+      nav { display: none; }
+      .hamburger { display: flex; }
+      .products-grid { grid-template-columns: 1fr; }
+      .deals-grid { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .hero-stats { flex-wrap: wrap; gap: 2rem; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+      .bestsellers-head { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+
+
+
+    
+/* ── AMAZON STRIP ── */
+.amazon-strip{
+  background:var(--offwhite);
+  padding:60px 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:40px;flex-wrap:wrap;
+  border-top:1px solid rgba(13,27,62,.06);
+  border-bottom:1px solid rgba(13,27,62,.06);
+}
+.amazon-left h3{
+   font-family: var(--font-display);font-size:32px;font-weight:800;
+  color:var(--navy);letter-spacing:-1px;margin-bottom:8px;
+}
+.amazon-left p{
+   font-family: var(--font-ui);
+}
+.amazon-left p{font-size:15px;color:var(--text-muted);font-weight:300;}
+.amazon-badges{display:flex;gap:12px;flex-wrap:wrap;}
+.a-badge{
+  display:flex;align-items:center;gap:8px;
+  background:var(--white);border:1px solid rgba(13,27,62,.08);
+  border-radius:12px;padding:12px 20px;
+  font-size:13px;font-weight:600;color:var(--navy);
+   font-family: var(--font-ui);
+}
+.a-badge span{font-size:20px;}
+
+
+.whyus-numbers {
+      background: var(--deep); padding: 7rem 0;
+      position: relative; overflow: hidden;
+      display: FLEX;
+      justify-content: center;
+      align-items: center;
+    }
+    .whyus-numbers::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+      background-size: 55px 55px;
+    }
+   
+    .numbers-title {
+      font-family: var(--font-display); font-size: clamp(2rem, 4vw, 4rem);
+      font-weight: 300; color: var(--off-white); margin-bottom: 10px;
+    }
+    .numbers-title em { font-style: italic; color: var(--gold); }
+    .numbers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3rem; }
+   
+  </style>
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="preloader-logo" id="plLogo">Zidan<em style="color: var(--gold);">Ventures®</em></div>
+    <div class="preloader-tagline" id="plTag">Life — Made Effortless</div>
+    <div class="preloader-bar-wrap">
+      <div class="preloader-bar" id="plBar"></div>
+    </div>
+    <div class="preloader-count" id="plCount">0%</div>
+    <div class="preloader-sweep" id="plSweep"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header id="site-header">
+    <div style="display: flex; justify-content: center; align-items: center;">
+    <img style="width: 50px; margin-right: 10px; "src="Untitled_design-removebg-preview.png" alt="logo">
+    <a href="index.html" class="logo">Zidan<em>Ventures®</em></a>
+    </div>
+    <nav>
+      <a href="index.html"   data-page="index.html" class="nav-list">Home</a>
+      <a href="about.html"   data-page="about.html" class="nav-list">About</a>
+      <a href="shop.html"    data-page="shop.html" class="nav-list">Shop</a>
+      <a href="whyus.html"   data-page="whyus.html" class="nav-list">Why Us</a>
+      <a href="contact.html" data-page="contact.html" class="nav-list">Contact</a>
+      <a href="https://www.amazon.co.uk/dp/B0G3HCSNRZ" class="nav-cta nav-list" >Shop Amazon ↗</a>
+    </nav>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-inner">
+      <!-- Left -->
+      <div class="hero-content">
+        <div class="hero-label" id="heroLabel">Amazon's Trusted Store</div>
+        <h1 class="hero-headline" id="heroHeadline">
+          Life Made<br>
+          <em>Gracefully</em><br>
+          <strong>Effortless</strong>
+        </h1>
+        <p class="hero-sub" id="heroSub">
+          ZidanVentures offers smart and reliable everyday essentials for modern lifestyles — combining comfort, convenience, and quality in every product.
+        <div class="hero-actions" id="heroActions">
+          <a href="#bestsellers" class="btn-primary">
+            Explore Products
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="9,3 14,8 9,13"/></svg>
+          </a>
+          
+        </div>
+        <div class="hero-stats" id="heroStats">
+          <div class="stat-item">
+            <div class="stat-num">700<span>+</span></div>
+            <div class="stat-label">Happy Customers</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">4.9<span>★</span></div>
+            <div class="stat-label">Average Rating</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">100<span>%</span></div>
+            <div class="stat-label">Feedback</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Visual -->
+      <div class="hero-visual" id="heroVisual">
+        <div class="hero-badge">Trade Mark Registered</div>
+        <div class="hero-card-main">
+          <div class="hero-product-showcase">
+            <div class="showcase-item">
+              <img src="61fbKoSZedL._AC_SY300_SX300_QL70_ML2_.jpg" style="border-radius: 20px; width: 200px;" alt="products">
+              
+              <div class="price">Corn Peeler</div>
+            </div>
+            <div class="showcase-item">
+              <img src="51fvF2DpwmL._SX342_SY445_QL70_ML2_.jpg" style="border-radius: 20px; width: 200px;" alt="products">
+              
+              <div class="price">Knee Guard</div>
+            </div>
+            <div class="showcase-item">
+              <img src="61mUp6A0jOL._AC_SX679_.jpg" style="width: 200px; border-radius: 20px;" alt="products">
+              
+              <div class="price">Cutting Board </div>
+            </div>
+            <div class="showcase-item">
+              <img src="71A4Nden9mL._AC_SX679_.jpg " style="width:200px; border-radius: 20px;" alt="products">
+             
+              <div class="price">Football Shin Pads</div>
+            </div>
+          </div>
+          <div class="hero-card-label">Featured Collection</div>
+          <div class="hero-card-title">Everyday Essentials</div>
+        </div>
+        <div class="hero-floating-card">
+          <div class="floating-icon">📦</div>
+          <div class="floating-text">
+            <div class="floating-label">Fast Delivery via</div>
+            <div class="floating-val">Amazon Prime</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span class="marquee-item">Free Shipping on Orders $25+</span>
+      <span class="marquee-item">4.9★ Rated on Amazon</span>
+      <span class="marquee-item">500+ Sales on ebay</span>
+      <span class="marquee-item">Premium Quality Guaranteed</span>
+      <span class="marquee-item">Easy 30-Day Returns</span>
+      <span class="marquee-item">Exclusive Amazon Deals</span>
+      <span class="marquee-item">Fast Shipping Through Amazon</span>
+      <span class="marquee-item">4.9★ Rated on Amazon</span>
+      <span class="marquee-item">500+ Sales on eba</span>
+      <span class="marquee-item">Premium Quality Guaranteed</span>
+      <span class="marquee-item">Easy 30-Day Returns</span>
+      <span class="marquee-item">Exclusive Amazon Deals</span>
+    </div>
+  </div>
+
+
+
+
+
+
+  <!-- BEST SELLERS -->
+  <section id="bestsellers" >
+    <div class="container">
+      <div class="bestsellers-head reveal">
+        <div>
+          <div class="section-label">Most Loved</div>
+          <h2 class="section-title">Best <em>Sellers</em></h2>
+        </div>
+        <a href="shop.html" class="bestsellers-all">
+          Click To View More
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="9,3 14,8 9,13"/></svg>
+        </a>
+      </div>
+      <div class="products-grid">
+
+        <div class="product-card reveal">
+          <div class="product-img">
+            <img src="719t1niz0ZL._AC_SX679_22222.jpg" alt="image">
+            <div class="product-badge">#1 Best Seller</div>
+            <div class="product-rating">★ 4.9</div>
+          </div>
+          <div class="product-body">
+            <div class="product-cat">Every Essentials . Food</div>
+            <div class="product-name">Wine Bottle Vacuum Pump Set with 6 Reusable Stoppers</div>
+            <p class="product-desc">100% LEAK-PROOF WINE BOTTLE VACUUM SEALER: Keep your opened bottles fresh for up to 14 days with our upgraded silicone red wine air tight stopper. This complete wine bottle sealer vacuum stoppers pump creates a strong airtight barrier, preventing oxidation to perfectly preserve the original flavour and aroma of your favourite red, white, or rosé.</p>
+            <div class="product-footer">
+              
+              <a href="https://www.amazon.co.uk/dp/B0FXSKJ6T6" class="product-btn">
+                Buy Now
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="9,3 14,8 9,13"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal">
+          <div class="product-img" style="background: linear-gradient(135deg, #0f3d52, #1e6e8a);">
+            <img src="61mUp6A0jOL._AC_SX679_.jpg" alt="image">
+            <div class="product-badge">Top Rated</div>
+            <div class="product-rating">★ 4.8</div>
+          </div>
+          <div class="product-body">
+            <div class="product-cat">Kitchen · Accessory</div>
+            <div class="product-name">3 Pack Tempered Glass Cutting Board</div>
+            <p class="product-desc">[COMPLETE 3-PIECE VALUE SET]: Includes three versatile sizes for every kitchen task: Large (30x40cm / 12x16"), Medium (25x35cm / 10x14"), and Small (20x30cm / 8x12"). From heavy meal prep to quick fruit slicing, you’ll always have the right board.</p>
+            <div class="product-footer">
+             
+              <a href="https://www.amazon.co.uk/dp/B0G2ZTBMXP" class="product-btn">
+                Buy Now
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="9,3 14,8 9,13"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card reveal">
+          <div class="product-img" style="background: linear-gradient(135deg, #1a3a28, #2d6b46);">
+            <img src="51fvF2DpwmL._SX342_SY445_QL70_ML2_.jpg" alt="image">
+            <div class="product-badge">Amazon's Choice</div>
+            <div class="product-rating">★ 4.9</div>
+          </div>
+          <div class="product-body">
+            <div class="product-cat">Work · Safety</div>
+            <div class="product-name">Gel Knee Pads for Work</div>
+            <p class="product-desc">ZidanVentures® Professional Knee Protection – Built for All Flooring & Construction Tasks Shield your knees during tiling, concrete work, flooring installations, roofing, welding, plumbing, gardening, and more. Designed for tradesmen, DIY home improvement, and outdoor use.</p>
+            <div class="product-footer">
+              
+              <a href="https://www.amazon.co.uk/dp/B0G3HCSNRZ" class="product-btn">
+                Buy Now
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="9,3 14,8 9,13"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+<!-- EBAY SECTION -->
+    <section class="ebay-section" style="--s: 80px; /* control the size */
+
+--deep:       ;
+--deep-mid:   #153747;
+--deep-light: ;
+
+ --s: 80px; /* control the size */
+  --c:  #113240;
+  
+  --_g: 
+    #0000 calc(-650%/13) calc(50%/13),var(--c) 0 calc(100%/13),
+    #0000 0 calc(150%/13),var(--c) 0 calc(200%/13),
+    #0000 0 calc(250%/13),var(--c) 0 calc(300%/13);
+  --_g0: repeating-linear-gradient( 45deg,var(--_g));
+  --_g1: repeating-linear-gradient(-45deg,var(--_g));
+  background:
+    var(--_g0),var(--_g0) var(--s) var(--s),
+    var(--_g1),var(--_g1) var(--s) var(--s) #0e2734;
+  background-size: calc(2*var(--s)) calc(2*var(--s));
+
+
+
+;"> 
+      <div class="container" >
+        <div class="ebay-inner">
+          <div class="ebay-badge reveal">🛍️ Also Available On</div>
+          <div class="ebay-logo-text reveal">View on <em>eBay</em></div>
+          <p class="ebay-tagline reveal">
+            Can't find what you're looking for on Amazon? Our full collection is also available on eBay — same trusted quality, same great prices, with eBay's world-class buyer protection.
+          </p>
+          <div class="ebay-stats reveal">
+            <div>
+              <div class="ebay-stat-num">500+</div>
+              <div class="ebay-stat-label">Sales</div>
+            </div>
+            <div>
+              <div class="ebay-stat-num">100%</div>
+              <div class="ebay-stat-label">Positive Feedback</div>
+            </div>
+            <div>
+              <div class="ebay-stat-num">4.9★</div>
+              <div class="ebay-stat-label">Seller Rating</div>
+            </div>
+            <div>
+              <div class="ebay-stat-num">24h</div>
+              <div class="ebay-stat-label">Fast Dispatch</div>
+            </div>
+          </div>
+          <div class="ebay-features reveal">
+            <div class="ebay-feat">
+              <div class="ebay-feat-icon">🛡️</div>
+              <div class="ebay-feat-title">eBay Buyer Protection</div>
+              <div class="ebay-feat-desc">Every purchase backed by eBay's money-back guarantee. Shop with complete confidence.</div>
+            </div>
+            <div class="ebay-feat">
+              <div class="ebay-feat-icon">⚡</div>
+              <div class="ebay-feat-title">Fast Shipping</div>
+              <div class="ebay-feat-desc">Orders dispatched within 24 hours. Fast shipping on orders on every order</div>
+            </div>
+            <div class="ebay-feat">
+              <div class="ebay-feat-icon">💬</div>
+              <div class="ebay-feat-title">100% Positive Feedback</div>
+              <div class="ebay-feat-desc">We've maintained a perfect seller rating since day one. Your satisfaction is our standard.</div>
+            </div>
+          </div>
+          <a href="https://www.ebay.co.uk/str/zidanVentures®?mkcid=16&mkevt=1&mkrid=711-127632-2357-0&ssspo=a-yigfpqsl-&sssrc=3418065&ssuid=a-yigfpqsl-&stype=1&widget_ver=artemis&media=MORE" class="ebay-cta reveal" target="_blank">
+            View Our eBay Store
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="9,3 14,8 9,13"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+  <!-- WHY US -->
+  <section id="why" >
+    <div class="container">
+      <div class="why-inner">
+        <div class="why-left reveal">
+          <div class="section-label">Why Choose Us</div>
+          <h2 class="section-title">We Simplify<br><em>Your Daily Life</em></h2>
+          <p class="why-sub">
+            At ZidanVentures®, every product is handpicked for real value, lasting quality, and genuine usefulness. We're not just another Amazon store — we're your trusted partner in making everyday living smarter.
+          </p>
+          <a href="#bestsellers" class="why-link">
+            See Our Products
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="9,3 14,8 9,13"/></svg>
+          </a>
+        </div>
+        <div class="why-features">
+          <div class="why-feat reveal">
+            <div class="why-feat-icon">✨</div>
+            <div class="why-feat-body">
+              <div class="why-feat-title">Curated Quality</div>
+              <div class="why-feat-desc">Every item passes our rigorous quality check. Only products that genuinely improve your daily routine make the cut.</div>
+            </div>
+          </div>
+          <div class="why-feat reveal">
+            <div class="why-feat-icon">💰</div>
+            <div class="why-feat-body">
+              <div class="why-feat-title">Unbeatable Value</div>
+              <div class="why-feat-desc">Premium performance at honest prices. We leverage Amazon's scale to bring you the best deals without compromise.</div>
+            </div>
+          </div>
+          <div class="why-feat reveal">
+            <div class="why-feat-icon">⚡</div>
+            <div class="why-feat-body">
+              <div class="why-feat-title">Amazon-Backed Delivery</div>
+              <div class="why-feat-desc">All products ship through Amazon's world-class fulfillment — fast, reliable, and Prime-eligible where available.</div>
+            </div>
+          </div>
+          <div class="why-feat reveal">
+            <div class="why-feat-icon">🛡️</div>
+            <div class="why-feat-body">
+              <div class="why-feat-title">Guaranteed Satisfaction</div>
+              <div class="why-feat-desc">Not happy? Amazon's buyer protection and our personal commitment ensure a full resolution, every time.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" style="  --sz: 20px;
+    --sz2: calc(var(--sz) * 10);
+    --sz3: calc((var(--sz) * 10) / 2);
+    --c0: #ffffff00;
+    --c1: #faf7f2;
+    --c2: #f5f0e8;
+	  --c1: #faf7f2;
+    --c2: #f3efe6;
+    --ts: 50% / var(--sz2) var(--sz2);
+   
+    overflow: hidden;
+    background: 
+        conic-gradient(from 136deg at 26% 75%, var(--c2) 0 25%, #fff0 0 100%) var(--ts),  
+        conic-gradient(from 136deg at 26% 75%, var(--c2) 0 25%, #fff0 0 100%) var(--ts),  
+        conic-gradient(from 136deg at 26% 75%, var(--c2) 0 25%, #fff0 0 100%) var(--ts),  
+        conic-gradient(from 90deg at 51% 99%, var(--c1) 0 25%, #fff0 0 100%) var(--ts),  
+        conic-gradient(from 90deg at 51% 99%, var(--c1) 0 25%, #fff0 0 100%) var(--ts),  
+        conic-gradient(from 90deg at 51% 99%, var(--c1) 0 25%, #fff0 0 100%) var(--ts),  
+        radial-gradient(circle at 100.5% -0.5%, var(--c1) 0 var(--sz3), var(--c0) calc(var(--sz3) + 1px) 100%) var(--ts),
+        radial-gradient(circle at 50% -0.5%, var(--c2) 0 var(--sz3), var(--c0) calc(var(--sz3) + 1px) 100%) var(--ts),
+        radial-gradient(circle at 100.5% -0.5%, var(--c1) 0 var(--sz3), var(--c0) calc(var(--sz3) + 1px) 100%) var(--ts),
+        radial-gradient(circle at 100.5% -1.5%, var(--c1) 0 var(--sz3), var(--c0) calc(var(--sz3) + 1px) 100%) var(--ts),
+        radial-gradient(circle at 100.5% -1.5%, var(--c1) 0 var(--sz3), var(--c0) calc(var(--sz3) + 1px) 100%) var(--ts),
+        radial-gradient(circle at 0% 100%, var(--c2) 0 var(--sz3), var(--c0) calc(var(--sz3) + 1px) 100%) var(--ts),
+        conic-gradient(from -180deg at 5% 50%, var(--c2) 0 25%, var(--c0) 0 100%) var(--ts),
+        conic-gradient(from -180deg at 5% 50%, var(--c2) 0 25%, var(--c0) 0 100%) var(--ts),
+        conic-gradient(from -180deg at 5% 50%, var(--c2) 0 25%, var(--c0) 0 100%) var(--ts),
+        conic-gradient(from -180deg at 5% 50%, var(--c2) 0 25%, var(--c0) 0 100%) var(--ts),
+        conic-gradient(from -90deg at 50% 58%, var(--c1) 0 25%, var(--c0) 0 100%) var(--ts),
+        radial-gradient(circle at 50% 100%, var(--c1) 0 var(--sz3), var(--c2) calc(var(--sz3) + 1px) 100%) var(--ts);
+        
+        -webkit-mask-image: linear-gradient(
+  to bottom,
+  transparent 0%,
+  black 15%,
+  black 85%,
+  transparent 100%
+);
+
+mask-image: linear-gradient(
+  to bottom,
+  transparent 0%,
+  black 15%,
+  black 75%,
+  transparent 100%,
+);
+
+background-color: var(--off-white2);
+        ">
+    <div class="container">
+      <div class="testimonials-head reveal">
+        <div class="section-label">Real Reviews</div>
+        <h2 class="section-title">What Our <em>Customers</em> Say</h2>
+      </div>
+      <div class="testi-grid">
+
+        <div class="testi-card reveal">
+          <div class="testi-verified">✔ Verified</div>
+          <div class="testi-quote">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">I have recently ordered them and they are very nice and high quality. They have Velcro on top and bottom which really help it secure in place and they seem to be well made and they protect and cushion the knee very well.</p>
+          <div class="testi-author">
+            <div class="testi-avatar">B</div>
+            <div>
+              <div class="testi-name">Bubbly</div>
+              <div class="testi-loc">Reviewed in the United Kingdom</div>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="testi-card featured reveal">
+          <div class="testi-verified" style="color:var(--gold-light);">✔ Top Review</div>
+          <div class="testi-quote">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">The Knee Pads are very well made and the stitchwork is very strong. The Pads themselves are very strong and durable. The Pad is toughened Plastic and this provides excellent protection when Kneeling down. They are very comfortable to wear and the Velcro Strap is thick and heavy duty.</p>
+          <div class="testi-author">
+            <div class="testi-avatar">A</div>
+            <div>
+              <div class="testi-name">Adam</div>
+              <div class="testi-loc">Reviewed in the United Kingdom</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card reveal">
+          <div class="testi-verified">✔ Verified</div>
+          <div class="testi-quote">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">Slightly smaller than I imagined, I would say it’s for a small dog, not a medium dog as I’m forever filling the water bowl three times a day</p>
+          <div class="testi-author">
+            <div class="testi-avatar">J</div>
+            <div>
+              <div class="testi-name">
+jeanette Evans
+</div>
+              <div class="testi-loc">Reviewed in the United Kingdom</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- NUMBERS -->
+    <section class="whyus-numbers" style="--s: 80px; /* control the size */
+
+--deep:       ;
+--deep-mid:   #153747;
+--deep-light: ;
+
+ --s: 80px; /* control the size */
+  --c:  #113240;
+  
+  --_g: 
+    #0000 calc(-650%/13) calc(50%/13),var(--c) 0 calc(100%/13),
+    #0000 0 calc(150%/13),var(--c) 0 calc(200%/13),
+    #0000 0 calc(250%/13),var(--c) 0 calc(300%/13);
+  --_g0: repeating-linear-gradient( 45deg,var(--_g));
+  --_g1: repeating-linear-gradient(-45deg,var(--_g));
+  background:
+    var(--_g0),var(--_g0) var(--s) var(--s),
+    var(--_g1),var(--_g1) var(--s) var(--s) #0e2734;
+  background-size: calc(2*var(--s)) calc(2*var(--s));
+
+
+
+;">
+      <div class="container">
+        <div class="numbers-inner">
+          <h2 class="numbers-title reveal">TIKTOK SHOP <em>COMMING SOON</em></h2>
+          <p style="font-family: var(--font-body);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: rgba(245,240,232,0.6);
+      margin-bottom: 3rem;
+      text-align: center;
+      ">After achieving success on Amazon and eBay, we are now expanding to TikTok Shop </p>
+          </div>
+      </div>
+    </section>
+<!-- AMAZON STRIP -->
+<div class="amazon-strip reveal" style="  --sz: 20px;
+    --sz2: calc(var(--sz) * 10);
+    --sz3: calc((var(--sz) * 10) / 2);
+    --c0: #ffffff00;
+    --c1: #faf7f2;
+    --c2: #f5f0e8;
+	  --c1: #faf7f2;
+    --c2: #f3efe6;
+    --ts: 50% / var(--sz2) var(--sz2);
+   
+    overflow: hidden;
+    background: 
+        conic-gradient(from 136deg at 26% 75%, var(--c2) 0 25%, #fff0 0 100%) var(--ts),  
+        conic-gradient(from 136deg at 26% 75%, var(--c2) 0 25%, #fff0 0 100%) var(--ts),  
+        conic-gradient(from 136deg at 26% 75%, var(--c2) 0 25%, #fff0 0 100%) var(--ts),  
+        conic-gradient(from 90deg at 51% 99%, var(--c1) 0 25%, #fff0 0 100%) var(--ts),  
+        conic-gradient(from 90deg at 51% 99%, var(--c1) 0 25%, #fff0 0 100%) var(--ts),  
+        conic-gradient(from 90deg at 51% 99%, var(--c1) 0 25%, #fff0 0 100%) var(--ts),  
+        radial-gradient(circle at 100.5% -0.5%, var(--c1) 0 var(--sz3), var(--c0) calc(var(--sz3) + 1px) 100%) var(--ts),
+        radial-gradient(circle at 50% -0.5%, var(--c2) 0 var(--sz3), var(--c0) calc(var(--sz3) + 1px) 100%) var(--ts),
+        radial-gradient(circle at 100.5% -0.5%, var(--c1) 0 var(--sz3), var(--c0) calc(var(--sz3) + 1px) 100%) var(--ts),
+        radial-gradient(circle at 100.5% -1.5%, var(--c1) 0 var(--sz3), var(--c0) calc(var(--sz3) + 1px) 100%) var(--ts),
+        radial-gradient(circle at 100.5% -1.5%, var(--c1) 0 var(--sz3), var(--c0) calc(var(--sz3) + 1px) 100%) var(--ts),
+        radial-gradient(circle at 0% 100%, var(--c2) 0 var(--sz3), var(--c0) calc(var(--sz3) + 1px) 100%) var(--ts),
+        conic-gradient(from -180deg at 5% 50%, var(--c2) 0 25%, var(--c0) 0 100%) var(--ts),
+        conic-gradient(from -180deg at 5% 50%, var(--c2) 0 25%, var(--c0) 0 100%) var(--ts),
+        conic-gradient(from -180deg at 5% 50%, var(--c2) 0 25%, var(--c0) 0 100%) var(--ts),
+        conic-gradient(from -180deg at 5% 50%, var(--c2) 0 25%, var(--c0) 0 100%) var(--ts),
+        conic-gradient(from -90deg at 50% 58%, var(--c1) 0 25%, var(--c0) 0 100%) var(--ts),
+        radial-gradient(circle at 50% 100%, var(--c1) 0 var(--sz3), var(--c2) calc(var(--sz3) + 1px) 100%) var(--ts);
+        
+        -webkit-mask-image: linear-gradient(
+  to bottom,
+  transparent 0%,
+  black 15%,
+  black 75%,
+  transparent 100%
+);
+
+mask-image: linear-gradient(
+  to bottom,
+  transparent 0%,
+  black 15%,
+  black 75%,
+  transparent 100%
+);
+
+background-color: var(--off-white2);
+        ">
+  <div class="amazon-left">
+    <h3>Shop with Confidence</h3>
+    <p>All products available on Amazon with full buyer protection & fast Prime delivery.</p>
+  </div>
+  <div class="amazon-badges">
+    <div class="a-badge"><span>⬤ </span> Prime Eligible</div>
+    <div class="a-badge"><span>⬤ </span> A-to-Z Guarantee</div>
+    <div class="a-badge"><span>⬤ </span> 4.8★ Avg Rating</div>
+    <div class="a-badge"><span>⬤ </span> Easy Returns</div>
+  </div>
+</div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand reveal">
+          <div class="footer-logo">Zidan<em>Ventures®</em></div>
+          <p class="footer-tagline">Since 2025, ZidanVentures has been bringing reliable, life-enhancing products to customers through Amazon.</p>
+          
+        </div>
+        <div class="reveal">
+          <div class="footer-col-title">Navigation</div>
+          <ul class="footer-links">
+            <li><a href="#why">Why Choose Us</a></li>
+            <li><a href="#bestsellers">Best Sellers</a></li>
+            <li><a href="#">Go To Top</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <div class="footer-col-title">Products</div>
+          <ul class="footer-links">
+             <li><a href="shop.html">Corn Peeler</a></li>
+            <li><a href="shop.html">Shin Pads</a></li>
+            <li><a href="shop.html">kee Guard</a></li>
+            <li><a href="shop.html">Raised Dog Bowls</a></li>
+            <li><a href="shop.html">All Products ↗</a></li>
+          </ul>
+        </div>
+       
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2026 ZidanVentures®. All rights reserved.</div>
+        <div class="footer-legal">
+          <a href="#">Trade Mark Registered</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <script>
+
+
+
+/* ─────────────────────────────
+   FULLSCREEN MENU
+───────────────────────────── */
+
+const hamburger = document.getElementById("hamburger");
+const nav = document.querySelector("header nav");
+const body = document.body;
+
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("active");
+  nav.classList.toggle("active");
+  body.classList.toggle("menu-open");
+});
+
+/* CLOSE MENU WHEN LINK CLICKED */
+document.querySelectorAll("header nav a").forEach(link => {
+  link.addEventListener("click", () => {
+    hamburger.classList.remove("active");
+    nav.classList.remove("active");
+    body.classList.remove("menu-open");
+  });
+});
+
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ─── CURSOR ─── */
+    const dot  = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animCursor() {
+      dot.style.left  = mx + 'px'; dot.style.top  = my + 'px';
+      rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animCursor);
+    }
+    animCursor();
+    document.querySelectorAll('a, button, .product-card, .deal-card, .testi-card, .why-feat').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('expand'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
+    });
+
+    /* ─── PRELOADER ─── */
+    const tl = gsap.timeline();
+    tl.to('#plLogo', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.3 })
+      .to('#plTag',  { opacity: 1,    duration: 0.6, ease: 'power2.out' }, '-=0.3')
+      .to('#plBar',  { width: '100%', duration: 1.6, ease: 'power2.inOut' }, '-=0.2');
+
+    let pct = 0;
+    const counter = setInterval(() => {
+      pct = Math.min(pct + Math.random() * 8, 100);
+      document.getElementById('plCount').textContent = Math.floor(pct) + '%';
+      if (pct >= 100) clearInterval(counter);
+    }, 80);
+
+    tl.to(['#plLogo','#plTag','#plBar','#plCount'], {
+        opacity: 0, y: -20, duration: 0.5, ease: 'power2.in', delay: 0.4
+      })
+      .to('#plSweep', {
+        left: '0%', duration: 0.6, ease: 'power3.inOut'
+      }, '-=0.1')
+      .to('#plSweep', {
+        left: '100%', duration: 0.7, ease: 'power3.inOut'
+      })
+      .to('#preloader', {
+        opacity: 0, duration: 0.4,
+        onComplete: () => {
+          document.getElementById('preloader').style.display = 'none';
+          initPage();
+        }
+      }, '-=0.1');
+
+    /* ─── INIT PAGE ANIMATIONS ─── */
+    function initPage() {
+      /* Hero */
+      gsap.to('#heroLabel',   { opacity: 1, y: 0, duration: 0.7, delay: 0.1, ease: 'power3.out' });
+      gsap.to('#heroHeadline',{ opacity: 1, y: 0, duration: 0.9, delay: 0.25, ease: 'power3.out' });
+      gsap.to('#heroSub',     { opacity: 1, y: 0, duration: 0.7, delay: 0.45, ease: 'power3.out' });
+      gsap.to('#heroActions', { opacity: 1, y: 0, duration: 0.6, delay: 0.6,  ease: 'power3.out' });
+      gsap.to('#heroStats',   { opacity: 1, y: 0, duration: 0.6, delay: 0.8,  ease: 'power3.out' });
+      gsap.to('#heroVisual',  { opacity: 1, x: 0, duration: 1.1, delay: 0.5,  ease: 'power3.out' });
+
+      /* Floating card pulse */
+      gsap.to('.hero-floating-card', {
+        y: -8, duration: 2, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.5
+      });
+
+      /* Scroll reveals */
+      gsap.utils.toArray('.reveal').forEach((el, i) => {
+        gsap.to(el, {
+          opacity: 1, y: 0, duration: 0.75,
+          ease: 'power3.out',
+          delay: (i % 3) * 0.12,
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+            toggleActions: 'play none none none'
+          }
+        });
+      });
+
+      /* Product cards stagger */
+      gsap.utils.toArray('.product-card').forEach((card, i) => {
+        gsap.fromTo(card,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1, y: 0, duration: 0.7,
+            ease: 'power3.out',
+            delay: i * 0.15,
+            scrollTrigger: { trigger: '#bestsellers', start: 'top 70%' }
+          }
+        );
+      });
+
+      /* Deal cards stagger */
+      gsap.utils.toArray('.deal-card').forEach((card, i) => {
+        gsap.fromTo(card,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1, y: 0, duration: 0.7,
+            ease: 'power3.out',
+            delay: i * 0.12,
+            scrollTrigger: { trigger: '#deals', start: 'top 70%' }
+          }
+        );
+      });
+
+      /* Testi cards */
+      gsap.utils.toArray('.testi-card').forEach((card, i) => {
+        gsap.fromTo(card,
+          { opacity: 0, scale: 0.96, y: 30 },
+          {
+            opacity: 1, scale: 1, y: 0, duration: 0.65,
+            ease: 'power3.out',
+            delay: i * 0.15,
+            scrollTrigger: { trigger: '#testimonials', start: 'top 70%' }
+          }
+        );
+      });
+
+      /* Stat counter animation */
+      const statNums = document.querySelectorAll('.stat-num');
+      statNums.forEach(stat => {
+        const text = stat.innerHTML;
+        const match = text.match(/(\d+\.?\d*)/);
+        if (match) {
+          const target = parseFloat(match[1]);
+          const isDecimal = text.includes('.');
+          let obj = { val: 0 };
+          gsap.to(obj, {
+            val: target, duration: 2.5, delay: 1.2, ease: 'power2.out',
+            onUpdate: () => {
+              const v = isDecimal ? obj.val.toFixed(1) : Math.floor(obj.val);
+              stat.innerHTML = text.replace(match[1], v);
+            }
+          });
+        }
+      });
+    }
+
+    /* ─── HEADER SCROLL ─── */
+    window.addEventListener('scroll', () => {
+      const h = document.getElementById('site-header');
+      h.classList.toggle('scrolled', window.scrollY > 60);
+    });
+    window.addEventListener('scroll', () => {
+      const h2 = document.querySelector('.logo');
+      h2.classList.toggle('scrolled2', window.scrollY > 60);
+    });
+     window.addEventListener('scroll', () => {
+      const h3 = document.querySelector('.logo em');
+      h3.classList.toggle('scrolled3', window.scrollY > 60);
+    });
+
+    /* ─── COUNTDOWN TIMER ─── */
+    function updateTimers() {
+      const countdowns = document.querySelectorAll('.deal-countdown');
+      countdowns.forEach(cd => {
+        const timeStr = cd.textContent.match(/(\d+:\d+:\d+)/);
+        if (timeStr) {
+          const parts = timeStr[1].split(':').map(Number);
+          let secs = parts[0]*3600 + parts[1]*60 + parts[2];
+          secs = Math.max(0, secs - 1);
+          const h = String(Math.floor(secs/3600)).padStart(2,'0');
+          const m = String(Math.floor((secs%3600)/60)).padStart(2,'0');
+          const s = String(secs%60).padStart(2,'0');
+          cd.textContent = `⏰ Ends in ${h}:${m}:${s}`;
+        }
+      });
+    }
+    setInterval(updateTimers, 1000);
+
+    /* ─── PARALLAX ORBS ─── */
+    document.addEventListener('mousemove', e => {
+      const x = (e.clientX / window.innerWidth  - 0.5) * 30;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      gsap.to('.hero-orb-1', { x: x * 0.8, y: y * 0.8, duration: 1.2, ease: 'power2.out' });
+      gsap.to('.hero-orb-2', { x: -x * 0.5, y: -y * 0.5, duration: 1.5, ease: 'power2.out' });
+    });
+  </script>
+
+
+</body>
+</html>

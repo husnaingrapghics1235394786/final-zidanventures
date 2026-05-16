@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us — ZidanVentures®</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  
+  <link rel="stylesheet" href="shared.css"/>
+  <style>
+    /* ─── HEADER ─── */
+header {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1.25rem 4vw;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.4s, box-shadow 0.4s, padding 0.4s;
+  background-color:var(--gold);
+}
+header.scrolled {
+  background: rgba(15,47,62,0.95);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 2px 30px rgba(0,0,0,0.25);
+  padding: 0.9rem 4vw;
+}
+
+
+header.solid {
+  background: rgba(15,47,62,0.98);
+  backdrop-filter: blur(18px);
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--deep-mid);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  margin: 0;
+  padding: 0;
+}
+.logo.scrolled2{
+color: var(--cream);
+}
+.logo em.scrolled3 {
+    color: var(--gold);
+}
+.logo em { color: var(--deep-dark); font-style: italic; font-weight: 300; }
+
+nav { display: flex; gap: 2rem; align-items: center; }
+nav a {
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.75);
+  text-decoration: none;
+  transition: color 0.25s;
+  position: relative;
+}
+nav a::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width 0.3s var(--ease-smooth);
+}
+nav a:hover, nav a.active { color: var(--off-white); }
+nav a:hover::after, nav a.active::after { width: 100%; }
+.nav-cta {
+  background: var(--gold) !important;
+  color: var(--deep-dark) !important;
+  padding: 0.6rem 1.3rem !important;
+  border-radius: 2px;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+}
+.nav-cta::after { display: none !important; }
+.nav-cta:hover { background: var(--gold-light) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { display: block; width: 24px; height: 1.5px; background: var(--off-white); transition: all 0.3s; }
+
+
+
+
+
+
+
+
+    /* ── ABOUT-SPECIFIC ── */
+    .about-story { background: var(--off-white); padding: 8rem 0; }
+    .story-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+   
+    }
+    .story-visual {
+      position: relative; border-radius: 20px; overflow: hidden;
+      background: linear-gradient(135deg, var(--deep), var(--deep-mid));
+      min-height: 480px; display: flex; align-items: center; justify-content: center;
+    }
+    .story-visual-inner { text-align: center; padding: 3rem; }
+    .story-visual-icon { font-size: 6rem; margin-bottom: 1.5rem; display: block; }
+    .story-visual-tag {
+      font-family: var(--font-ui); font-size: 0.65rem;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+    .story-visual-stat {
+      font-family: var(--font-display); font-size: 3.5rem; font-weight: 300;
+      color: var(--off-white); line-height: 1;
+    }
+    .story-visual-stat span { color: var(--gold); font-style: italic; }
+    .story-visual::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .story-badge {
+      position: absolute; bottom: 2rem; right: 2rem;
+      background: var(--gold); color: var(--deep-dark);
+      font-family: var(--font-ui); font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.6rem 1.1rem; border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.4);
+    }
+    .story-content .section-title { color: var(--text-dark); }
+    .story-body {
+      font-size: 0.98rem; line-height: 1.9; color: var(--text-mid);
+      margin-top: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .story-values {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2.5rem;
+    }
+    .value-pill {
+      background: var(--cream);
+      border: 1px solid rgba(25,74,98,0.1);
+      border-radius: 10px; padding: 1rem 1.25rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .value-pill-icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--deep), var(--deep-mid));
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .value-pill-text { font-family: var(--font-ui); font-size: 0.78rem; font-weight: 600; color: var(--text-dark); }
+
+    /* ── MISSION ── */
+    .about-mission { background: var(--deep-dark); padding: 8rem 0; position: relative; }
+    .about-mission::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 15% 50%, rgba(25,74,98,0.6) 0%, transparent 50%),
+                        radial-gradient(circle at 85% 30%, rgba(201,168,76,0.06) 0%, transparent 40%);
+      pointer-events: none;
+    }
+    .mission-inner { position: relative; z-index: 2; text-align: center; max-width: 780px; margin: 0 auto; }
+    .mission-quote {
+      font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300; line-height: 1.3; color: var(--off-white);
+      font-style: italic; margin-bottom: 2rem;
+    }
+    .mission-quote span { color: var(--gold); }
+    .mission-attr {
+      font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--text-light);
+    }
+    .mission-pillars {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 5rem;
+    }
+    .pillar {
+      background-color:var(--deep-mid); border: 1px solid rgba(201,168,76,0.12);
+      border-radius: 16px; padding: 2.5rem 2rem; text-align: center;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .pillar:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-5px); }
+    .pillar-icon { font-size: 2.5rem; margin-bottom: 1.25rem; }
+    .pillar-num {
+      font-family: var(--font-display); font-size: 2.8rem; font-weight: 300;
+      color: var(--gold); line-height: 1; margin-bottom: 0.4rem;
+    }
+    .pillar-label {
+      font-family: var(--font-ui); font-size: 0.68rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--text-light); margin-bottom: 1rem;
+      
+    }
+    .pillar-desc { font-size: 0.9rem; line-height: 1.7; color: rgba(255, 255, 255, 0.5); }
+
+    /* ── TEAM ── */
+    .about-team { background: var(--cream); padding: 8rem 0; }
+    .team-head { text-align: center; margin-bottom: 5rem; }
+    .team-head .section-label { justify-content: center; }
+    .team-head .section-label::before { display: none; }
+    .team-head .section-label::after { content: ''; width: 24px; height: 1px; background: var(--gold); }
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    .team-card {
+      background: var(--cream); border: 1px solid rgba(25,74,98,0.1);
+      border-radius: 20px; overflow: hidden;
+      transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s;
+      position: relative;
+    }
+    .team-card:hover { transform: translateY(-8px); box-shadow: 0 30px 60px rgba(25,74,98,0.14); }
+    .team-photo {
+      height: 280px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .team-card:nth-child(1) .team-photo { background: linear-gradient(145deg, #0f2f3e, #194a62); }
+    .team-card:nth-child(2) .team-photo { background: linear-gradient(145deg, #1a3528, #2d6b46); }
+    .team-card:nth-child(3) .team-photo { background: linear-gradient(145deg, #2d1f0a, #8b6420); }
+    .team-avatar-big {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      background: rgba(245,240,232,0.12);
+      border: 2px solid rgba(201,168,76,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 3rem;
+      color: var(--off-white); font-weight: 300;
+    }
+    .team-photo-pattern {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.04) 0%, transparent 50%);
+    }
+    .team-social-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1rem; display: flex; justify-content: center; gap: 0.6rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.3));
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .team-card:hover .team-social-overlay { opacity: 1; transform: translateY(0); }
+    .team-social-btn {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(201,168,76,0.2); border: 1px solid rgba(201,168,76,0.4);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold-light); font-size: 0.75rem; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .team-social-btn:hover { background: var(--gold); color: var(--deep-dark); }
+    .team-body { padding: 2rem; }
+    .team-role {
+      font-family: var(--font-ui); font-size: 0.62rem; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem;
+    }
+    .team-name {
+      font-family: var(--font-display); font-size: 1.6rem; font-weight: 400;
+      color: var(--text-dark); margin-bottom: 0.75rem;
+    }
+    .team-bio { font-size: 0.88rem; line-height: 1.75; color: var(--text-mid); margin-bottom: 1.25rem; }
+    .team-skills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-tag {
+      background: rgba(25,74,98,0.08); border: 1px solid rgba(25,74,98,0.12);
+      border-radius: 20px; padding: 0.25rem 0.75rem;
+      font-family: var(--font-ui); font-size: 0.6rem;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--deep);
+    }
+
+    /* ── TIMELINE ── */
+    .about-timeline { background: var(--off-white); padding: 8rem 0; }
+    .timeline-head { margin-bottom: 5rem; }
+    .timeline-track { position: relative; padding-left: 3rem; }
+    .timeline-track::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    .timeline-item {
+      position: relative; padding-bottom: 3.5rem; padding-left: 2rem;
+    }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -2.4rem; top: 6px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--gold); border: 3px solid var(--off-white);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.25);
+    }
+    .timeline-year {
+      font-family: var(--font-ui); font-size: 0.65rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem;
+    }
+    .timeline-title {
+      font-family: var(--font-display); font-size: 1.5rem; font-weight: 400;
+      color: var(--text-dark); margin-bottom: 0.6rem;
+    }
+    .timeline-desc { font-size: 0.92rem; line-height: 1.75; color: var(--text-mid); max-width: 560px; }
+
+    /* ── CTA BANNER ── */
+    .about-cta {
+      background: var(--deep-dark); padding: 6rem 0;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .about-cta::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .about-cta-inner { position: relative; z-index: 2; }
+    .cta-title {
+      font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 5rem);
+      font-weight: 300; color: var(--off-white); margin-bottom: 1.25rem;
+    }
+    .cta-title em { font-style: italic; color: var(--gold); }
+    .cta-sub { font-size: 1rem; color: rgba(245,240,232,0.55); margin-bottom: 3rem; }
+    .cta-actions { display: flex; gap: 1.25rem; justify-content: center; }
+
+    @media (max-width: 1024px) {
+      .story-grid { grid-template-columns: 1fr; }
+      .story-visual { min-height: 300px; }
+      .mission-pillars { grid-template-columns: 1fr 1fr; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .story-values { grid-template-columns: 1fr; }
+      .mission-pillars { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr; }
+      .cta-actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="page-transition-overlay"></div>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="preloader-logo" id="plLogo">Zidan<span>Ventures®</span></div>
+    <div class="preloader-tagline" id="plTag">About Us</div>
+    <div class="preloader-bar-wrap"><div class="preloader-bar" id="plBar"></div></div>
+    <div class="preloader-count" id="plCount">0%</div>
+    <div class="preloader-sweep" id="plSweep"></div>
+  </div>
+
+  <!-- HEADER -->
+   <!-- HEADER -->
+  <header id="site-header">
+    <div style="display: flex; justify-content: center; align-items: center;">
+    <img style="width: 50px; margin-right: 10px; "src="Untitled_design-removebg-preview.png" alt="logo">
+    <a href="index.html" class="logo">Zidan<em>Ventures®</em></a>
+    </div>
+    <nav>
+      <a href="index.html"   data-page="index.html">Home</a>
+      <a href="about.html"   data-page="about.html">About</a>
+      <a href="shop.html"    data-page="shop.html" >Shop</a>
+      <a href="whyus.html"   data-page="whyus.html">Why Us</a>
+      <a href="contact.html" data-page="contact.html">Contact</a>
+      <a href="hhttps://www.amazon.co.uk/dp/B0G3HCSNRZ" class="nav-cta">Shop Amazon ↗</a>
+    </nav>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  
+
+    <!-- PAGE HERO -->
+    <section class="page-hero" style="height: 80vh;">
+      <div class="page-hero-grid"></div>
+      <div class="page-hero-orb page-hero-orb-1"></div>
+      <div class="page-hero-orb page-hero-orb-2"></div>
+      <div class="page-hero-inner container">
+        <div class="page-hero-breadcrumb"><a href="index.html">Home</a> / About Us</div>
+        <h1 class="page-hero-title" id="heroTitle">Our <em>Story</em></h1>
+        <p class="page-hero-sub">From a small idea to thousands of happy customers — here's how ZidanVentures® came to be the brand you trust for everyday life.</p>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-strip">
+      <div class="marquee-track">
+        <span class="marquee-item">Founded 2025</span>
+        <span class="marquee-item">700+ Sales On Amazon</span> 
+        <span class="marquee-item">4.9★ Average Rating</span>
+        <span class="marquee-item">5+ Products Launched</span>
+        <span class="marquee-item">Trusted Amazon Seller</span>
+        <span class="marquee-item">100% Feedback</span>
+        <span class="marquee-item">Founded 2025</span>
+        <span class="marquee-item">700+ Sales On amazon</span>
+        <span class="marquee-item">4.9★ Average Rating</span>
+        <span class="marquee-item">5 Products Launched</span>
+        <span class="marquee-item">Trusted Amazon Seller</span>
+        <span class="marquee-item">500+ sales onn eBay</span>
+      </div>
+    </div>
+
+    <!-- STORY -->
+    <section class="about-story">
+      <div class="container">
+        <div class="story-grid">
+          <div class="story-visual reveal">
+            <div class="team-photo-pattern"></div>
+            
+           <img src="IMG-20260506-WA0018 (2).jpg" style="width: 100%; height: 100%;" alt="logo">
+            <div class="story-badge">Est. 2025 ✦ Amazon Trusted</div>
+          </div>
+          <div class="story-content reveal">
+            <div class="section-label">Who We Are</div>
+            <h2 class="section-title">Built on a <em>Simple Belief</em></h2>
+            <p class="story-body">ZidanVentures® started in 2025 with one conviction: everyday life deserves better products. Not luxury for luxury's sake — but genuinely useful, well-made things that make your life easier and your wellness consistent.</p>
+            <p class="story-body">We scour Amazon's marketplace and beyond, testing hundreds of products to find the few that actually deliver. Every item we list has been personally vetted for quality, value, and real-world usefulness.</p>
+            <div class="story-values">
+              <div class="value-pill"><div class="value-pill-icon">🎯</div><div class="value-pill-text">Purpose-Driven</div></div>
+              <div class="value-pill"><div class="value-pill-icon">✅</div><div class="value-pill-text">Quality First</div></div>
+              <div class="value-pill"><div class="value-pill-icon">💛</div><div class="value-pill-text">Customer Obsessed</div></div>
+              <div class="value-pill"><div class="value-pill-icon">🌿</div><div class="value-pill-text">Responsibly Sourced</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION -->
+    <section class="about-mission" style="--s: 80px; /* control the size */
+
+--deep:       ;
+--deep-mid:   #153747;
+--deep-light: ;
+
+ --s: 80px; /* control the size */
+  --c:  #113240;
+  
+  --_g: 
+    #0000 calc(-650%/13) calc(50%/13),var(--c) 0 calc(100%/13),
+    #0000 0 calc(150%/13),var(--c) 0 calc(200%/13),
+    #0000 0 calc(250%/13),var(--c) 0 calc(300%/13);
+  --_g0: repeating-linear-gradient( 45deg,var(--_g));
+  --_g1: repeating-linear-gradient(-45deg,var(--_g));
+  background:
+    var(--_g0),var(--_g0) var(--s) var(--s),
+    var(--_g1),var(--_g1) var(--s) var(--s) #0e2734;
+  background-size: calc(2*var(--s)) calc(2*var(--s));
+
+
+
+;">
+      <div class="container" style="position:relative;z-index:2;">
+        <div class="mission-inner">
+          <div class="section-label" style="justify-content:center;margin-bottom:2rem;">Our Mission</div>
+          <div class="mission-quote reveal">"Life shouldn't be complicated. The right products, at the right time, make all the difference.<span> Driven by quality, Powered by satisfaction</span>"</div>
+          <div class="mission-attr reveal">— Zila Huma, Founder &amp; CEO</div>
+        </div>
+        <div class="mission-pillars">
+          <div class="pillar reveal">
+            <div class="pillar-icon">📦</div>
+            <div class="pillar-num">6</div>
+            <div class="pillar-label">Products Curated</div>
+            <div class="pillar-desc">Every product handpicked after rigorous research and real-world testing.</div>
+          </div>
+          <div class="pillar reveal">
+            <div class="pillar-icon">⭐</div>
+            <div class="pillar-num">4.9</div>
+            <div class="pillar-label">Avg. Star Rating</div>
+            <div class="pillar-desc">Consistently rated among Amazon's top sellers in our categories.</div>
+          </div>
+          <div class="pillar reveal">
+            <div class="pillar-icon">🤝</div>
+            <div class="pillar-num">700+</div>
+            <div class="pillar-label">Sales Amazon</div>
+            <div class="pillar-desc">A growing community of people who've chosen effortless living.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="about-team">
+      <div class="container">
+        <div class="team-head reveal">
+          <div class="section-label">The People Behind It</div>
+          <h2 class="section-title">Meet Our <em>Team</em></h2>
+        </div>
+        <div class="team-grid">
+
+          <div class="team-card reveal">
+            <div class="team-photo">
+              <div class="team-photo-pattern"></div>
+              <div class="team-avatar-big">Z</div>
+            
+            </div>
+            <div class="team-body">
+              <div class="team-role">Founder & CEO</div>
+              <div class="team-name">Zila Huma</div>
+              <p class="team-bio">The visionary behind ZidanVentures®. With 6 years in e-commerce, Zil Huma built this brand on the belief that quality products shouldn't be hard to find. She personally approves every item in the catalog.</p>
+              <div class="team-skills">
+                <span class="skill-tag">Product Strategy</span>
+                <span class="skill-tag">E-commerce Grapics Designer</span>
+                <span class="skill-tag">Brand Designer</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-card reveal">
+            <div class="team-photo">
+              <div class="team-photo-pattern"></div>
+              <div class="team-avatar-big">D</div>
+              
+            </div>
+            <div class="team-body">
+              <div class="team-role">E-commerce Marketing Executive</div>
+              <div class="team-name">Danial Iftikhar Ahmed</div>
+              <p class="team-bio">Danial Iftikhar Ahmed turns happy customers into a movement. From Amazon PPC to social content, he's responsible for the word spreading — and for making sure every deal reaches the people who need it most.</p>
+              <div class="team-skills">
+                <span class="skill-tag">Digital Marketing</span>
+                <span class="skill-tag">Growth</span>
+                <span class="skill-tag">Supplier Relations</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-card reveal">
+            <div class="team-photo">
+              <div class="team-photo-pattern"></div>
+              <div class="team-avatar-big">A</div>
+            
+            </div>
+            <div class="team-body">
+              <div class="team-role">Coustomer Support</div>
+              <div class="team-name">Awais Umer</div>
+              <p class="team-bio">Awais Umer is our Customer Support Representative (CSR), plays a crucial role in maintaining customer satisfaction and resolving issues efficiently.</p>
+              <div class="team-skills">
+                <span class="skill-tag">Operation & Coustomer Support</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+<!-- EBAY SECTION -->
+    <section class="ebay-section" style="--s: 80px; /* control the size */
+
+--deep:       ;
+--deep-mid:   #153747;
+--deep-light: ;
+
+ --s: 80px; /* control the size */
+  --c:  #113240;
+  
+  --_g: 
+    #0000 calc(-650%/13) calc(50%/13),var(--c) 0 calc(100%/13),
+    #0000 0 calc(150%/13),var(--c) 0 calc(200%/13),
+    #0000 0 calc(250%/13),var(--c) 0 calc(300%/13);
+  --_g0: repeating-linear-gradient( 45deg,var(--_g));
+  --_g1: repeating-linear-gradient(-45deg,var(--_g));
+  background:
+    var(--_g0),var(--_g0) var(--s) var(--s),
+    var(--_g1),var(--_g1) var(--s) var(--s) #0e2734;
+  background-size: calc(2*var(--s)) calc(2*var(--s));
+
+
+
+;"> 
+      <div class="container" >
+        <div class="ebay-inner">
+          <div class="ebay-badge reveal">🛍️ Also Available On</div>
+          <div class="ebay-logo-text reveal">View on <em>eBay</em></div>
+          <p class="ebay-tagline reveal">
+            Can't find what you're looking for on Amazon? Our full collection is also available on eBay — same trusted quality, same great prices, with eBay's world-class buyer protection.
+          </p>
+          <div class="ebay-stats reveal">
+            <div>
+              <div class="ebay-stat-num">500+</div>
+              <div class="ebay-stat-label">Sales</div>
+            </div>
+            <div>
+              <div class="ebay-stat-num">100%</div>
+              <div class="ebay-stat-label">Positive Feedback</div>
+            </div>
+            <div>
+              <div class="ebay-stat-num">4.9★</div>
+              <div class="ebay-stat-label">Seller Rating</div>
+            </div>
+            <div>
+              <div class="ebay-stat-num">24h</div>
+              <div class="ebay-stat-label">Fast Dispatch</div>
+            </div>
+          </div>
+          <div class="ebay-features reveal">
+            <div class="ebay-feat">
+              <div class="ebay-feat-icon">🛡️</div>
+              <div class="ebay-feat-title">eBay Buyer Protection</div>
+              <div class="ebay-feat-desc">Every purchase backed by eBay's money-back guarantee. Shop with complete confidence.</div>
+            </div>
+            <div class="ebay-feat">
+              <div class="ebay-feat-icon">⚡</div>
+              <div class="ebay-feat-title">Fast Shipping</div>
+              <div class="ebay-feat-desc">Orders dispatched within 24 hours. Fast shipping on orders on every order</div>
+            </div>
+            <div class="ebay-feat">
+              <div class="ebay-feat-icon">💬</div>
+              <div class="ebay-feat-title">100% Positive Feedback</div>
+              <div class="ebay-feat-desc">We've maintained a perfect seller rating since day one. Your satisfaction is our standard.</div>
+            </div>
+          </div>
+          <a href="https://www.ebay.co.uk/str/zidanVentures®?mkcid=16&mkevt=1&mkrid=711-127632-2357-0&ssspo=a-yigfpqsl-&sssrc=3418065&ssuid=a-yigfpqsl-&stype=1&widget_ver=artemis&media=MORE" class="ebay-cta reveal" target="_blank">
+            View Our eBay Store
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="9,3 14,8 9,13"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <!-- TIMELINE -->
+    <section class="about-timeline">
+      <div class="container">
+        <div class="timeline-head reveal">
+          <div class="section-label">Our Journey</div>
+          <h2 class="section-title">How We <em>Got Here</em></h2>
+        </div>
+        <div class="timeline-track">
+          <div class="timeline-item reveal">
+            <div class="timeline-year">Nov 2025 — Year One</div>
+            <div class="timeline-title">The First Product</div>
+            <p class="timeline-desc">ZidanVentures® launched with a single Corn Peeler product listed on Amazon. It sold out in a single weeks — and we knew we were onto something real.</p>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-year">Dec 2025 — Expanding</div>
+            <div class="timeline-title">Added More Products in Our Catalog</div>
+            <p class="timeline-desc">We grew our catalog to 5 products and hit our first major milestone — 497 verified Amazon purchases. The reviews were overwhelming, and word-of-mouth took over.</p>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-year">20 December 2025 — Recognition</div>
+            <div class="timeline-title">Amazon's Choice Badge</div>
+            <p class="timeline-desc">One of our products earned the coveted "Amazon's Choice" badge. We doubled our team and launched into home & kitchen — our fastest growing category.</p>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-year">2025 — Scale</div>
+            <div class="timeline-title">700+ Sales On Amazon</div>
+            <p class="timeline-desc">Now with 6 products, international customers, and an excellent average rating, ZidanVentures® is recognized as one of the most trusted personal brand sellers on Amazon.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+
+
+    <!-- CTA -->
+    <section class="about-cta">
+      <div class="container">
+        <div class="about-cta-inner reveal" >
+          <h2 class="cta-title">Ready to <em>Simplify</em> Your Life?</h2>
+          <p class="cta-sub">Browse our curated collection of everyday essentials, available now on Amazon.</p>
+          <div class="cta-actions">
+            <a href="shop.html" class="btn-primary">Shop Now</a>
+            <a href="contact.html" class="btn-outline btn-outline--light">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER PLACEHOLDER -->
+    <div id="footer-mount"></div>
+
+  </main>
+  </div>
+
+  <script src="shared.js"></script>
+   <script>
+    gsap.registerPlugin(ScrollTrigger);
+    runPreloader(() => {
+      gsap.from('#heroTitle', { opacity: 0, y: 40, duration: 0.9, ease: 'power3.out' });
+      initHeader(); initReveal(); initCursor(); 
+    });
+    renderFooter(document.getElementById('footer-mount'));
+  </script>
+ 
+</body>
+</html>

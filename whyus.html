@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Why Choose Us — ZidanVentures®</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <script  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <link rel="stylesheet" href="shared.css"/>
+  <style>
+    /* ── WHYUS SPECIFIC ── */
+    .whyus-core { background: var(--off-white); padding: 8rem 0; }
+    .core-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 5rem; }
+    .core-card {
+      background: var(--cream); border: 1px solid rgba(25,74,98,0.1);
+      border-radius: 20px; padding: 2.5rem;
+      transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s;
+      position: relative; overflow: hidden;
+    }
+    .core-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px rgba(25,74,98,0.13);
+    }
+    .core-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--deep), var(--gold));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s var(--ease-smooth);
+    }
+    .core-card:hover::before { transform: scaleX(1); }
+    .core-card-num {
+      font-family: var(--font-display); font-size: 4rem; font-weight: 300;
+      color: rgba(25,74,98,0.08); line-height: 1;
+      position: absolute; top: 1.5rem; right: 1.75rem;
+      transition: color 0.4s;
+    }
+    .core-card:hover .core-card-num { color: rgba(25,74,98,0.14); }
+    .core-icon {
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, var(--deep), var(--deep-mid));
+      border-radius: 16px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 1.5rem;
+      box-shadow: 0 8px 24px rgba(25,74,98,0.22);
+    }
+    .core-title {
+      font-family: var(--font-ui); font-size: 0.95rem; font-weight: 700;
+      letter-spacing: 0.04em; color: var(--text-dark); margin-bottom: 0.75rem;
+    }
+    .core-desc { font-size: 0.9rem; line-height: 1.78; color: var(--text-mid); }
+
+    /* ── COMPARISON ── */
+    .whyus-compare { background: var(--cream); padding: 8rem 0; }
+    .compare-head { text-align: center; margin-bottom: 5rem; }
+    .compare-head .section-label { justify-content: center; }
+    .compare-head .section-label::before { display: none; }
+    .compare-head .section-label::after { content: ''; width: 24px; height: 1px; background: var(--gold); }
+    .compare-table {
+      width: 100%; border-collapse: collapse;
+      background: var(--cream); border-radius: 16px; overflow: hidden;
+      box-shadow: 0 4px 30px rgba(25,74,98,0.08);
+    }
+    .compare-table thead tr {
+      background: var(--deep-dark);
+    }
+    .compare-table thead th {
+      font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(245,240,232,0.6);
+      padding: 1.5rem 2rem; text-align: left;
+    }
+    .compare-table thead th:first-child { color: var(--gold); }
+    .compare-table thead th.highlight { color: var(--gold); }
+    .compare-table tbody tr {
+      border-bottom: 1px solid rgba(25,74,98,0.06);
+      transition: background 0.2s;
+    }
+    .compare-table tbody tr:hover { background: rgba(25,74,98,0.03); }
+    .compare-table tbody td {
+      padding: 1.25rem 2rem;
+      font-size: 0.9rem; color: var(--text-mid);
+    }
+    .compare-table tbody td:first-child { color: var(--text-dark); font-weight: 500; }
+    .compare-table .col-us { background: rgba(25,74,98,0.03); }
+    .check { color: #2d8a5e; font-size: 1.1rem; }
+    .cross { color: #c0392b; font-size: 1rem; }
+    .partial { color: var(--gold); font-size: 0.9rem; }
+
+    /* ── PROCESS ── */
+    .whyus-process { background: var(--deep-dark); padding: 8rem 0; position: relative; }
+    .whyus-process::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 10% 50%, rgba(25,74,98,0.5) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 30%, rgba(201,168,76,0.06) 0%, transparent 40%);
+    }
+    .process-inner { position: relative; z-index: 2; }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 5rem;
+      position: relative;
+    }
+    .process-steps::before {
+      content: ''; position: absolute;
+      top: 3rem; left: calc(12.5%); right: calc(12.5%);
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.25) 20%, rgba(201,168,76,0.25) 80%, transparent);
+    }
+    .process-step { text-align: center; }
+    .step-circle {
+      width: 60px; height: 60px; border-radius: 50%;
+      border: 2px solid rgba(201,168,76,0.3);
+      background: rgba(201,168,76,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin: 0 auto 1.5rem;
+      transition: border-color 0.3s, background 0.3s;
+      position: relative; z-index: 2;
+    }
+    .process-step:hover .step-circle { border-color: var(--gold); background: rgba(201,168,76,0.15); }
+    .step-num {
+      position: absolute; top: -8px; right: -8px;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--gold); color: var(--deep-dark);
+      font-family: var(--font-ui); font-size: 0.6rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-title {
+      font-family: var(--font-ui); font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.05em; color: var(--off-white); margin-bottom: 0.6rem;
+    }
+    .step-desc { font-size: 0.82rem; line-height: 1.7; color: rgba(245,240,232,0.45); }
+
+    /* ── TRUST SIGNALS ── */
+    .whyus-trust { background: var(--off-white); padding: 8rem 0; }
+    .trust-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3rem; margin-top: 5rem; }
+    .trust-card {
+      background: var(--cream); border: 1px solid rgba(25,74,98,0.1);
+      border-radius: 20px; padding: 2.75rem;
+      display: flex; gap: 2rem; align-items: flex-start;
+      transition: transform 0.35s, box-shadow 0.35s;
+    }
+    .trust-card:hover { transform: translateY(-5px); box-shadow: 0 22px 50px rgba(25,74,98,0.11); }
+    .trust-icon {
+      width: 64px; height: 64px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--deep), var(--deep-mid));
+      border-radius: 18px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; box-shadow: 0 8px 24px rgba(25,74,98,0.24);
+    }
+    .trust-body {}
+    .trust-title {
+      font-family: var(--font-display); font-size: 1.4rem; font-weight: 400;
+      color: var(--text-dark); margin-bottom: 0.6rem;
+    }
+    .trust-desc { font-size: 0.9rem; line-height: 1.78; color: var(--text-mid); }
+
+    /* ── NUMBERS ── */
+    .whyus-numbers {
+      background: var(--deep); padding: 7rem 0;
+      position: relative; overflow: hidden;
+    }
+    .whyus-numbers::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+      background-size: 55px 55px;
+    }
+    .numbers-inner { position: relative; z-index: 2; text-align: center; }
+    .numbers-title {
+      font-family: var(--font-display); font-size: clamp(2rem, 4vw, 4rem);
+      font-weight: 300; color: var(--off-white); margin-bottom: 5rem;
+    }
+    .numbers-title em { font-style: italic; color: var(--gold); }
+    .numbers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3rem; }
+    .number-item {}
+    .number-val {
+      font-family: var(--font-display); font-size: 4rem; font-weight: 300;
+      color: var(--off-white); line-height: 1;
+    }
+    .number-val span { color: var(--gold); font-style: italic; }
+    .number-label {
+      font-family: var(--font-ui); font-size: 0.65rem; letter-spacing: 0.28em;
+      text-transform: uppercase; color: rgba(245,240,232,0.45);
+      margin-top: 0.5rem;
+    }
+    .number-divider { width: 30px; height: 1px; background: rgba(201,168,76,0.3); margin: 0.75rem auto; }
+
+    /* ── FINAL CTA ── */
+    .whyus-cta {
+      background: var(--cream); padding: 7rem 0; text-align: center;
+    }
+    .whyus-cta-inner .section-title { color: var(--text-dark); margin-bottom: 1rem; }
+    .whyus-cta-inner p { font-size: 1rem; color: var(--text-mid); margin-bottom: 3rem; }
+    .whyus-cta-actions { display: flex; gap: 1.25rem; justify-content: center; }
+
+    @media (max-width: 1024px) {
+      .core-grid { grid-template-columns: 1fr 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .process-steps::before { display: none; }
+      .numbers-grid { grid-template-columns: 1fr 1fr; gap: 3rem 2rem; }
+      .trust-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .core-grid { grid-template-columns: 1fr; }
+      .compare-table { font-size: 0.82rem; }
+      .compare-table td, .compare-table th { padding: 1rem 1rem; }
+      .whyus-cta-actions { flex-direction: column; align-items: center; }
+      .numbers-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="page-transition-overlay"></div>
+
+  <div id="preloader">
+    <div class="preloader-logo" id="plLogo">Zidan<span>Ventures®</span></div>
+    <div class="preloader-tagline" id="plTag">Why Choose Us</div>
+    <div class="preloader-bar-wrap"><div class="preloader-bar" id="plBar"></div></div>
+    <div class="preloader-count" id="plCount">0%</div>
+    <div class="preloader-sweep" id="plSweep"></div>
+  </div>
+
+   <!-- HEADER -->
+  <header id="site-header">
+    <div style="display: flex; justify-content: center; align-items: center;">
+    <img style="width: 50px; margin-right: 10px; "src="Untitled_design-removebg-preview.png" alt="logo">
+    <a href="index.html" class="logo">Zidan<em>Ventures®</em></a>
+    </div>
+    <nav>
+      <a href="index.html"   data-page="index.html" class="nav-list" >Home</a>
+      <a href="about.html"   data-page="about.html" class="nav-list" >About</a>
+      <a href="shop.html"    data-page="shop.html"  class="nav-list">Shop</a>
+      <a href="whyus.html"   data-page="whyus.html" class="nav-list">Why Us</a>
+      <a href="contact.html" data-page="contact.html" class="nav-list" >Contact</a>
+      <a href="https://www.amazon.co.uk/dp/B0G3HCSNRZ"  class="nav-list" >Shop Amazon ↗</a>
+    </nav>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+ 
+    <section class="page-hero">
+      <div class="page-hero-grid"></div>
+      <div class="page-hero-orb page-hero-orb-1"></div>
+      <div class="page-hero-orb page-hero-orb-2"></div>
+      <div class="page-hero-inner container">
+        <div class="page-hero-breadcrumb"><a href="index.html">Home</a> / Why Choose Us</div>
+        <h1 class="page-hero-title" id="heroTitle">Why <em>ZidanVentures?</em></h1>
+        <p class="page-hero-sub">There are thousands of Amazon sellers. Here's exactly why our customers keep coming back — and why you can trust us with your hard-earned money.</p>
+      </div>
+    </section>
+
+    <div class="marquee-strip">
+      <div class="marquee-track">
+        <span class="marquee-item">Curated Quality</span>
+        <span class="marquee-item">Honest Pricing</span>
+        <span class="marquee-item">4.9★ Rated</span>
+        <span class="marquee-item">Amazon Prime Shipping</span>
+        <span class="marquee-item">30-Day Returns</span>
+        <span class="marquee-item">Real Reviews Only</span>
+        <span class="marquee-item">Curated Quality</span>
+        <span class="marquee-item">Honest Pricing</span>
+        <span class="marquee-item">4.9★ Rated</span>
+        <span class="marquee-item">Amazon Prime Shipping</span>
+        <span class="marquee-item">30-Day Returns</span>
+        <span class="marquee-item">Real Reviews Only</span>
+      </div>
+    </div>
+
+    <!-- CORE REASONS -->
+    <section class="whyus-core">
+      <div class="container">
+        <div style="text-align:center" class="reveal">
+          <div class="section-label" style="justify-content:center;">Our Commitments</div>
+          <h2 class="section-title">The 6 Reasons Customers <em>Trust Us</em></h2>
+        </div>
+        <div class="core-grid">
+          <div class="core-card reveal">
+            <div class="core-card-num">01</div>
+            <div class="core-icon">✨</div>
+            <div class="core-title">Relentless Quality Curation</div>
+            <p class="core-desc">We reject 80% of products we evaluate. Only items that pass our 12-point quality check make it onto our store — from materials and packaging to real-world performance.</p>
+          </div>
+          <div class="core-card reveal">
+            <div class="core-card-num">02</div>
+            <div class="core-icon">💰</div>
+            <div class="core-title">Transparent, Fair Pricing</div>
+            <p class="core-desc">We never inflate prices to fake discounts. Every price reflects genuine market value. We make our margin by selling volume, not by misleading you.</p>
+          </div>
+          <div class="core-card reveal">
+            <div class="core-card-num">03</div>
+            <div class="core-icon">⚡</div>
+            <div class="core-title">Amazon-Backed Fulfillment</div>
+            <p class="core-desc">All products ship through Amazon FBA — one of the most advanced logistics networks on Earth. That means fast delivery, real tracking, and Prime eligibility.</p>
+          </div>
+          <div class="core-card reveal">
+            <div class="core-card-num">04</div>
+            <div class="core-icon">🛡️</div>
+            <div class="core-title">No-Nonsense Guarantees</div>
+            <p class="core-desc">Not happy? We make returns easy through Amazon's buyer protection. We also personally follow up on any negative review to understand what went wrong.</p>
+          </div>
+          <div class="core-card reveal">
+            <div class="core-card-num">05</div>
+            <div class="core-icon">⭐</div>
+            <div class="core-title">Real, Unfiltered Reviews</div>
+            <p class="core-desc">We never pay for reviews or suppress negative ones. Our 4.9-star rating is earned through thousands of genuine purchases and honest feedback.</p>
+          </div>
+          <div class="core-card reveal">
+            <div class="core-card-num">06</div>
+            <div class="core-icon">🤝</div>
+            <div class="core-title">Human-First Customer Care</div>
+            <p class="core-desc">When you message us, a real person reads it. No bots, no scripts — just Zidan and the team, personally committed to your satisfaction.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARISON -->
+    <section class="whyus-compare">
+      <div class="container">
+        <div class="compare-head reveal">
+          <div class="section-label">Side by Side</div>
+          <h2 class="section-title">Us vs. <em>The Rest</em></h2>
+        </div>
+        <div style="overflow-x:auto;" class="reveal">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th class="highlight">ZidanVentures® ✦</th>
+                <th>Generic Amazon Sellers</th>
+                <th>Big Box Retail</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Curated Product Selection</td>
+                <td class="col-us"><span class="check">✔</span> Handpicked, tested</td>
+                <td><span class="cross">✗</span> Bulk listing</td>
+                <td><span class="partial">~ </span>Category-wide</td>
+              </tr>
+              <tr>
+                <td>Transparent Pricing</td>
+                <td class="col-us"><span class="check">✔</span> Always honest</td>
+                <td><span class="partial">~</span> Often inflated</td>
+                <td><span class="cross">✗</span> High markup</td>
+              </tr>
+              <tr>
+                <td>Prime / Fast Shipping</td>
+                <td class="col-us"><span class="check">✔</span> FBA, 1–2 days</td>
+                <td><span class="partial">~</span> Varies widely</td>
+                <td><span class="check">✔</span> In-store only</td>
+              </tr>
+              <tr>
+                <td>Verified Real Reviews</td>
+                <td class="col-us"><span class="check">✔</span> 100% genuine</td>
+                <td><span class="cross">✗</span> Often purchased</td>
+                <td><span class="partial">~</span> Limited data</td>
+              </tr>
+              <tr>
+                <td>Personal Customer Service</td>
+                <td class="col-us"><span class="check">✔</span> Human, &lt;24h reply</td>
+                <td><span class="cross">✗</span> Automated bots</td>
+                <td><span class="cross">✗</span> Call center queue</td>
+              </tr>
+              <tr>
+                <td>30-Day Returns</td>
+                <td class="col-us"><span class="check">✔</span> Hassle-free</td>
+                <td><span class="partial">~</span> Seller-dependent</td>
+                <td><span class="partial">~</span> Receipt required</td>
+              </tr>
+              <tr>
+                <td>Cruelty-Free / Tested</td>
+                <td class="col-us"><span class="check">✔</span> All applicable items</td>
+                <td><span class="cross">✗</span> No standard</td>
+                <td><span class="partial">~</span> Some brands</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="whyus-process" style="--s: 80px; /* control the size */
+
+--deep:       ;
+--deep-mid:   #153747;
+--deep-light: ;
+
+ --s: 80px; /* control the size */
+  --c:  #113240;
+  
+  --_g: 
+    #0000 calc(-650%/13) calc(50%/13),var(--c) 0 calc(100%/13),
+    #0000 0 calc(150%/13),var(--c) 0 calc(200%/13),
+    #0000 0 calc(250%/13),var(--c) 0 calc(300%/13);
+  --_g0: repeating-linear-gradient( 45deg,var(--_g));
+  --_g1: repeating-linear-gradient(-45deg,var(--_g));
+  background:
+    var(--_g0),var(--_g0) var(--s) var(--s),
+    var(--_g1),var(--_g1) var(--s) var(--s) #0e2734;
+  background-size: calc(2*var(--s)) calc(2*var(--s));
+
+
+
+;">
+      <div class="container">
+        <div class="process-inner">
+          <div style="text-align:center" class="reveal">
+            <div class="section-label" style="justify-content:center;color:var(--gold);">How It Works</div>
+            <h2 class="section-title section-title--light">Our <em>Curation Process</em></h2>
+          </div>
+          <div class="process-steps">
+            <div class="process-step reveal">
+              <div class="step-circle"><div class="step-num">1</div>🔍</div>
+              <div class="step-title">Research & Discovery</div>
+              <div class="step-desc">We scout hundreds of products across categories, analyzing market demand, competitor reviews, and ingredient/material transparency.</div>
+            </div>
+            <div class="process-step reveal">
+              <div class="step-circle"><div class="step-num">2</div>🧪</div>
+              <div class="step-title">Real-World Testing</div>
+              <div class="step-desc">Every shortlisted product is tested by our team for at least 2 weeks under normal daily use conditions before we make a decision.</div>
+            </div>
+            <div class="process-step reveal">
+              <div class="step-circle"><div class="step-num">3</div>✅</div>
+              <div class="step-title">Quality Verification</div>
+              <div class="step-desc">Passing products undergo a 12-point check covering packaging, labeling, claims verification, and safety certification review.</div>
+            </div>
+            <div class="process-step reveal">
+              <div class="step-circle"><div class="step-num">4</div>🚀</div>
+              <div class="step-title">Launch & Monitor</div>
+              <div class="step-desc">Listed products are monitored constantly. If review quality drops below 4.5 stars, we investigate and pull the listing if needed.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST SIGNALS -->
+    <section class="whyus-trust">
+      <div class="container">
+        <div class="reveal" style="margin-bottom:1rem;">
+          <div class="section-label">Trust & Safety</div>
+          <h2 class="section-title">You're Always <em>Protected</em></h2>
+        </div>
+        <div class="trust-grid" style="margin-top:4rem;">
+          <div class="trust-card reveal">
+            <div class="trust-icon">🔒</div>
+            <div class="trust-body">
+              <div class="trust-title">Amazon Buyer Protection</div>
+              <p class="trust-desc">Every purchase through our Amazon store is automatically covered by Amazon's A-to-Z Guarantee. If anything goes wrong — wrong item, not delivered, not as described — Amazon will make it right, every single time.</p>
+            </div>
+          </div>
+          <div class="trust-card reveal">
+            <div class="trust-icon">🧾</div>
+            <div class="trust-body">
+              <div class="trust-title">Transparent Product Claims</div>
+              <p class="trust-desc">We never exaggerate product benefits. What you read in our listings is based on factual testing and manufacturer certifications — not marketing fiction.</p>
+            </div>
+          </div>
+          <div class="trust-card reveal">
+            <div class="trust-icon">📦</div>
+            <div class="trust-body">
+              <div class="trust-title">Secure Packaging & Handling</div>
+              <p class="trust-desc">All items are stored and shipped from Amazon's climate-controlled fulfilment centers. Your order arrives exactly as it left the warehouse — pristine, sealed, and ready to use.</p>
+            </div>
+          </div>
+          <div class="trust-card reveal">
+            <div class="trust-icon">🌍</div>
+            <div class="trust-body">
+              <div class="trust-title">Responsible Sourcing</div>
+              <p class="trust-desc">We prioritize suppliers who demonstrate ethical labor practices and environmentally conscious production. Because good products shouldn't come at someone else's expense.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NUMBERS -->
+    <section class="whyus-numbers" style="--s: 80px; /* control the size */
+
+--deep:       ;
+--deep-mid:   #153747;
+--deep-light: ;
+
+ --s: 80px; /* control the size */
+  --c:  #113240;
+  
+  --_g: 
+    #0000 calc(-650%/13) calc(50%/13),var(--c) 0 calc(100%/13),
+    #0000 0 calc(150%/13),var(--c) 0 calc(200%/13),
+    #0000 0 calc(250%/13),var(--c) 0 calc(300%/13);
+  --_g0: repeating-linear-gradient( 45deg,var(--_g));
+  --_g1: repeating-linear-gradient(-45deg,var(--_g));
+  background:
+    var(--_g0),var(--_g0) var(--s) var(--s),
+    var(--_g1),var(--_g1) var(--s) var(--s) #0e2734;
+  background-size: calc(2*var(--s)) calc(2*var(--s));
+
+
+
+;">
+      <div class="container">
+        <div class="numbers-inner">
+          <h2 class="numbers-title reveal">Our Track Record <em>Speaks</em></h2>
+          <div class="numbers-grid">
+            <div class="number-item reveal">
+              <div class="number-val" data-target="700">0<span>+</span></div>
+              <div class="number-divider"></div>
+              <div class="number-label">Happy Customers</div>
+            </div>
+            <div class="number-item reveal">
+              <div class="number-val" data-target="4.9" data-decimal>4.9<span>★</span></div>
+              <div class="number-divider"></div>
+              <div class="number-label">Average Rating</div>
+            </div>
+            <div class="number-item reveal">
+              <div class="number-val" data-target="6">0<span></span></div>
+              <div class="number-divider"></div>
+              <div class="number-label">Products Curated</div>
+            </div>
+            <div class="number-item reveal">
+              <div class="number-val" data-target="98">0<span>%</span></div>
+              <div class="number-divider"></div>
+              <div class="number-label">Positive Reviews</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="whyus-cta">
+      <div class="container">
+        <div class="whyus-cta-inner reveal">
+          <div class="section-label" style="justify-content:center;margin-bottom:1.5rem;">Make the Switch</div>
+          <h2 class="section-title">Stop Settling. <em>Shop Better.</em></h2>
+          <p>You now know exactly what makes ZidanVentures® different. Time to experience it firsthand.</p>
+          <div class="whyus-cta-actions">
+            <a href="shop.html" class="btn-primary">Browse Products</a>
+            <a href="contact.html" class="btn-outline">Get in Touch</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="footer-mount"></div>
+  </main>
+  </div>
+
+  <script src="shared.js"></script>
+  <script>
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ── COUNTER ANIMATION ── */
+    function initCounters() {
+      document.querySelectorAll('.number-val[data-target]').forEach(el => {
+        const target = parseFloat(el.dataset.target);
+        const isDecimal = 'decimal' in el.dataset;
+        const suffix = el.querySelector('span') ? el.querySelector('span').outerHTML : '';
+        let obj = { val: 0 };
+        ScrollTrigger.create({
+          trigger: el, start: 'top 80%',
+          onEnter: () => {
+            gsap.to(obj, {
+              val: target, duration: 2.5, ease: 'power2.out',
+              onUpdate: () => {
+                const v = isDecimal ? obj.val.toFixed(1) : Math.floor(obj.val).toLocaleString();
+                el.innerHTML = v + suffix;
+              }
+            });
+          }
+        });
+      });
+    }
+
+    runPreloader(() => {
+      gsap.from('#heroTitle', { opacity: 0, y: 40, duration: 0.9, ease: 'power3.out' });
+      initHeader(); initReveal(); initCursor(); 
+      initCounters();
+    });
+    renderFooter(document.getElementById('footer-mount'));
+  </script>
+</body>
+</html>
